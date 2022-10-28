@@ -66,8 +66,7 @@ https://templatemo.com/tm-579-cyborg-gaming
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="{% url 'home' %}" class="active">Главная</a></li>
-                        <li><a href="details.html">Разместить сервер</a></li>
-                        <li><a href="profile.html">Профиль <img src="assets/images/profile-header.jpg" alt=""></a></li>
+                        <li><a href="{% url 'new_Server' %}">Разместить сервер <img src="{% static 'assets/images/addserver.png' %}" alt=""></a></li>
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>

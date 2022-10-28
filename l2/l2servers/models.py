@@ -3,6 +3,10 @@ import datetime
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django_fsm import FSMField, transition
+
+STATES = ['New', 'Open']
+STATES = list(zip(STATES, STATES))
 
 
 class Game(models.Model):
@@ -47,12 +51,10 @@ class GameServer(models.Model):
     max_online = models.IntegerField(default=0)
     current_online = models.IntegerField(default=0)
     online_game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name='Game')
-    server_ico = models.ImageField(verbose_name='Лого сервера', null=True, default=None, upload_to='servers_logo',
-                                   blank=True)
+    server_ico = models.ImageField(upload_to='servers_logo')
 
     server_slug = models.SlugField(unique=True, db_index=True, null=True, blank=True, default=None)
-
-    SERVERS_NOT_OPEN = []
+    state = FSMField(default='Open', choices=STATES)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -61,12 +63,13 @@ class GameServer(models.Model):
     def __str__(self):
         return f'{self.online_game} {self.name}'
 
-    def get_servers_not_open(self, GameServer):
-        data = datetime.datetime.today()
-        server_date = GameServer.date_published
-        if server_date > data:
-            self.save()
-
+    @transition(field=state, source='New', target='Open')
+    def opened(self):
+        date = datetime.date.today()
+        print(date)
+        if date == self.server_open:
+            open = GameServer.opened
+            open.save()
 
 
 class Ads(models.Model):
@@ -77,3 +80,7 @@ class Ads(models.Model):
 
     def __str__(self):
         return f'{self.server} {self.server.name}'
+
+    class Meta:
+        verbose_name = 'Рекламный пост'
+        verbose_name_plural = 'Рекламные посты'

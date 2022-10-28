@@ -2,7 +2,7 @@ from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import ListView
 
-from .models import Game, GameServer
+from .models import Game, GameServer, Ads
 
 
 def index(request):
@@ -37,8 +37,15 @@ class ServersListView(ListView):
     def get_queryset(self):
         qs = self.model.objects.all()
         if self.kwargs.get('game_slug'):
-            qs = self.model.objects.filter(online_game__game_slug=self.kwargs['game_slug'])
-            check = list(qs)
-            if not check:
-                raise Http404
+            qs = self.model.objects.filter(online_game__game_slug=self.kwargs['game_slug']).filter(ads=None)
         return qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['ads'] = Ads.objects.all().filter(server__online_game__game_slug=self.kwargs['game_slug'])
+
+        return context
+
+
+def details(request):
+    return render(request, 'details.html')
