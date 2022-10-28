@@ -1,14 +1,13 @@
-from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import ListView
 
-from .models import Game, GameServer, Ads
+from .models import GameServer, Ads
 
 
 def index(request):
     lineage2_servers = GameServer.objects.all().filter(online_game_id='1')
-    Rust_servers = GameServer.objects.all().filter(online_game_id='2')
-    WoW_servers = GameServer.objects.all().filter(online_game_id='3')
+    rust_servers = GameServer.objects.all().filter(online_game_id='2')
+    wow_servers = GameServer.objects.all().filter(online_game_id='3')
     csgo_servers = GameServer.objects.all().filter(online_game_id='4')
     arma3_servers = GameServer.objects.all().filter(online_game_id='5')
     dayz_servers = GameServer.objects.all().filter(online_game_id='6')
@@ -17,8 +16,8 @@ def index(request):
 
     context = {
         'l2servers_count': len(lineage2_servers),
-        'Rust_Count': len(Rust_servers),
-        'Wow_Count': len(WoW_servers),
+        'Rust_Count': len(rust_servers),
+        'Wow_Count': len(wow_servers),
         'CsGo_count': len(csgo_servers),
         'Arma3_count': len(arma3_servers),
         'Dayz_Count': len(dayz_servers),

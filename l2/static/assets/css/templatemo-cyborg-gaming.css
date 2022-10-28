@@ -156,6 +156,12 @@ p {
 	border-radius: 23px;
 }
 
+.templatemo-item-ad {
+    max-width: 80px;
+    max-width: max-content;
+    border-radius: 23px;
+}
+
 .main-button a {
   font-size: 14px;
   color: #fff;
@@ -1733,3 +1739,4 @@ body {
     width: 16%;
   }
 }
+

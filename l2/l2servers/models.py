@@ -10,6 +10,7 @@ STATES = list(zip(STATES, STATES))
 
 
 class Game(models.Model):
+    """доступные игры модель"""
     Lineage_2 = 'Lineage 2'
     Rust = 'Rust'
     Word_Of_Warcraft = 'Word Of Warcraft'
@@ -35,16 +36,17 @@ class Game(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(Game, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('game', kwargs={'game_slug': self.game_slug})
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class GameServer(models.Model):
+    """сервера модель"""
     name = models.CharField(max_length=1000)
     date_published = models.DateField()
     server_open = models.DateField()
@@ -58,7 +60,7 @@ class GameServer(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(GameServer, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.online_game} {self.name}'
@@ -66,20 +68,20 @@ class GameServer(models.Model):
     @transition(field=state, source='New', target='Open')
     def opened(self):
         date = datetime.date.today()
-        print(date)
         if date == self.server_open:
-            open = GameServer.opened
-            open.save()
+            server_open = GameServer.opened()
+            server_open.save()
 
 
 class Ads(models.Model):
+    """реклама модель"""
     server = models.ForeignKey(GameServer, on_delete=models.CASCADE)
     default = models.BooleanField(default=True)
     vip = models.BooleanField(default=None)
     top_vip = models.BooleanField(default=None)
 
     def __str__(self):
-        return f'{self.server} {self.server.name}'
+        return str(f'{self.server} {self.server.name}')
 
     class Meta:
         verbose_name = 'Рекламный пост'
