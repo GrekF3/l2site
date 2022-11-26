@@ -1,194 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 {% extends 'base-page.html' %}
 {% load static %}
 <html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <head>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static 'res/bootstrap-5.0.2-dist/css/bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'res/css/style.css' %}">
 
-    {% block title %} Сервера {% endblock %}
+	<title>EzServers | {% block title %} Сервера {% endblock %}</title>
+</head>
 
-  </head>
 
 <body>
+{% block content %}
+<!-- Навигация -->
+<div class="c-nav d-flex container-xxl pt-3">
+	<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' color='white' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+	     aria-label="breadcrumb">
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="#" class="hover-own">ГЛАВНАЯ</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a href="#" class="hover-own">СЕРВЕРА</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<a href="" class="hover-own">Lineage 2</a>
+			</li>
+		</ul>
+	</nav>
+</div>
 
+<!-- Контент -->
+{% for server in server_list %}
+<div class="d-flex container-xxl pt-2 page-bp">
+	<div class="nk-blog-post">
+		<div class="row vertical-gap">
+			<div class="col-12 pt-20">
+				<h2 class="nk-post-title h4 mb-6">
+					<a href="#">
+						★ {{ server.name }}
+					</a>
+				</h2>
+				<a href="https://www.top100arena.com/banner/2420" class="nk-post-img mb-6">
+				<img src="https://www.top100arena.com/storage/fixedbanners/Ln86yUixcyP32hA9mDdRmGW5EBOzHuOlO1uSo758.gif" alt="★ BEST SERVER - INTERLUDE X50 - 2ND DECEMBER!">
+				</a>
+				<div class="nk-post-text">
+					<p>The best server for solo players! Cash race at the start with a prize pool of $1,500! Go to our discord - https://discord.gg/5d2w7UVpbp
+					<a href="https://www.top100arena.com/banner/2420"><strong>Visit</strong></a>
+					</p>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+{% endblock %}
 
-  {% block content %}
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="page-content">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
-<!--          &lt;!&ndash; ***** Featured Games Start ***** &ndash;&gt;-->
-<!--          <div class="row">-->
-<!--            <div class="col-lg-8">-->
-<!--              <div class="featured-games header-text">-->
-<!--                 <div class="col-lg-4">-->
-<!--                  <div class="top-downloaded">-->
-<!--                    <div class="heading-section">-->
-<!--                      {% for name in server_list %}-->
-<!--                        {% if forloop.counter == 1 %}-->
-<!--                      <h4><em>{{ name.online_game }}</em> VIP сервера 💎</h4>-->
-<!--                        {% endif %}-->
-<!--                      {% endfor %}-->
-<!--                    </div>-->
-<!--                {% for ad in ads %}-->
-<!--                    {% if ad.top_vip %}-->
-<!--                    <div class="row">-->
-<!--                      <ul>-->
-<!--                          <li style="display: flex;align-items: center;">-->
-<!--                            <div style="width: 30%;">-->
-<!--                              <h4>{{ ad.server.online_game }} </h4>-->
-<!--                              <h4> {{ ad.server.name }} 💎💎</h4>-->
-<!--                              <h6>Online {{ ad.server.current_online }}/{{ ad.server.max_online }}</h6>-->
-<!--                            </div>-->
-<!--                            <div style="width: 400px;max-height: 230px;height: 120px;display: flex;align-items: center;justify-content: center;">-->
-<!--                                <a href="#"><img src="{% static 'assets/images/giphy.gif' %}" alt="" style="display: block;max-width: 255px;border-radius: 30px;"></a>-->
-<!--                              </div>-->
-<!--                            <div class="row" style="display: flex;">-->
-<!--                              <h4>Рейты</h4><span>X1, X2, X10000</span>-->
-<!--                            </div>-->
-<!--                            <div class="main-border-button border-active"><a href="#">Online</a></div>-->
-<!--                          </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                      {% endif %}-->
-<!--                    {% endfor %}-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          &lt;!&ndash; ***** Featured Games End ***** &ndash;&gt;-->
-
-          <!-- ***** Топ сервера  ***** -->
-          <div class="gaming-library profile-library">
-            <div class="col-lg-12">
-              <div class="heading-section">
-                {% for name in server_list %}
-                  {% if forloop.counter == 1 %}
-                <h4><em>{{ name.online_game }}</em> VIP сервера💎</h4>
-                  {% endif %}
-                {% endfor %}
-              </div>
-              {% for ad in ads %}
-                {% if ad.top_vip %}
-              <div class="item">
-                <ul>
-                  <li><img src="{% static 'assets/images/giphy.gif' %}" alt="" class="templatemo-item-ad"></li>
-                  <li><h4>{{ ad.server.name }}💎💎</h4><span>{{ ad.server.online_game }}</span></li>
-                  <li><h4>Дата открытия</h4><span>{{ ad.server.server_open }}</span></li>
-                  <li><h4>Текущий онлайн</h4><span>{{ ad.server.current_online }}/{{ ad.server.max_online }}</span></li>
-                  <li><h4>Характеристики</h4><span>X1, X2, X10000</span></li>
-                  <li><div class="main-border-button border-active"><a href="#">Online</a></div></li>
-                </ul>
-              </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-          <!-- ***** Топ сервера  ***** -->
-
-
-          <!-- ***** Сервера Реклама ***** -->
-          <div class="gaming-library profile-library">
-            <div class="col-lg-12">
-              <div class="heading-section">
-                {% for name in server_list %}
-                  {% if forloop.counter == 1 %}
-                <h4><em>{{ name.online_game }}</em> лучшие сервера🔥</h4>
-                  {% endif %}
-                {% endfor %}
-              </div>
-              {% for ad in ads %}
-                {% if ad.vip %}
-              <div class="item">
-                <ul>
-                  <li><img src="{% static 'assets/images/game-01.jpg' %}" alt="" class="templatemo-item"></li>
-                  <li><h4>{{ ad.server.name }}🔥🔥</h4><span>{{ ad.server.online_game }}</span></li>
-                  <li><h4>Дата открытия</h4><span>{{ ad.server.server_open }}</span></li>
-                  <li><h4>Текущий онлайн</h4><span>{{ ad.server.current_online }}/{{ ad.server.max_online }}</span></li>
-                  <li><h4>Характеристики</h4><span>X1, X2, X10000</span></li>
-                  <li><div class="main-border-button border-active"><a href="#">Online</a></div></li>
-                </ul>
-              </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-          <!-- ***** Сервера реклама энд ***** -->
-
-          <!-- ***** Сервера список ***** -->
-          <div class="gaming-library profile-library">
-            <div class="col-lg-12">
-              <div class="heading-section">
-                {% for name in server_list %}
-                  {% if forloop.counter == 1 %}
-                <h4><em>{{ name.online_game }}</em> все сервера</h4>
-                  {% endif %}
-                {% endfor %}
-              </div>
-              {% for server in server_list %}
-                {% if server.state == 'Open' %}
-              <div class="item">
-                <ul>
-                  <li><img src="{{ server.server_ico.url }}" alt="No Logo" class="templatemo-item"></li>
-                  <li><h4>{{ server.name }}</h4><span>{{ server.online_game }}</span></li>
-                  <li><h4>Дата открытия</h4><span>{{ server.server_open }}</span></li>
-                  <li><h4>Текущий онлайн</h4><span>{{ server.current_online }}/{{ server.max_online }}</span></li>
-                  <li><h4>Характеристики</h4><span>X1, X2, X10000</span></li>
-                  <li><div class="main-border-button border-active"><a href="#">Online</a></div></li>
-                </ul>
-              </div>
-                {% endif %}
-              {% endfor %}
-
-            </div>
-
-          </div>
-          <!-- ***** Сервера список энд ***** -->
-
-          <!-- ***** Сервера скоро открытие ***** -->
-          <div class="gaming-library profile-library">
-            <div class="col-lg-12">
-              <div class="heading-section">
-                {% for name in server_list %}
-                  {% if forloop.counter == 1 %}
-                <h4><em>{{ name.online_game.name }}</em> скоро открытие</h4>
-                  {% endif %}
-                {% endfor %}
-              </div>
-              {% for server in server_list %}
-                {% if server.state == 'New' %}
-              <div class="item">
-                <ul>
-                  <li><img src="assets/images/game-01.jpg" alt="" class="templatemo-item"></li>
-                  <li><h4>{{ server.name }}</h4><span>{{ server.online_game }}</span></li>
-                  <li><h4>Дата открытия</h4><span>{{ server.server_open }}</span></li>
-                  <li><h4>Текущий онлайн</h4><span>{{ server.current_online }}/{{ server.max_online }}</span></li>
-                  <li><h4>Характеристики</h4><span>X1, X2, X10000</span></li>
-                  <li><div class="main-border-button border-no-active"><a href="#">Offline</a></div></li>
-                </ul>
-              </div>
-                {% endif %}
-              {% endfor %}
-
-            </div>
-          </div>
-          <!-- ***** Сервера скоро открытие ***** -->
-
-
-
-
-
-
-
-        </div>
-      </div>
-    </div>
-  </div>
-  {% endblock %}
-
-
-  </body>
-
+<script src="{% static 'res/bootstrap-5.0.2-dist/js/bootstrap.js' %}"></script>
+</body>
 </html>

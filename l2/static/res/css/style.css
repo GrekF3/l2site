@@ -1,0 +1,50 @@
+body {
+    background: linear-gradient(indigo, blue);
+    background-repeat: no-repeat;
+    background-image: url("/res/images/background.jpg");
+}
+
+.container-header {
+    background-color: indigo;
+}
+
+.container-browse {
+    text-align: center;
+    text-decoration: none;
+}
+
+.c-nav {
+    text-decoration: none;
+}
+
+.hover-own {
+    text-decoration: none;
+    
+    color: white;
+
+    font-weight: bold;
+
+    background:
+      linear-gradient(-45deg, #000  40%, #fff 0 60%, #000  0) right/300% 100% no-repeat,
+      linear-gradient(-45deg, #0000 40%, #000 0 60%, #0000 0) right/300% 100% no-repeat;
+    -webkit-background-clip: text, padding-box;
+    background-clip: text, padding-box;
+  }
+  .hover-own:hover {
+    background-position: left;
+    transition: 0.8s;
+    color: white;
+}
+
+.breadcrumb {
+    background-color: transparent;
+}
+
+.card-title {
+    color: #000;
+}
+
+.page-bp {
+    background-color: rgb(39 41 42);
+    border-radius: 23px;
+}
