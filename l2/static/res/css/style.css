@@ -123,12 +123,12 @@ body {
 }
 
 .gold {
-    background-color: rgb(204 172 0);
+    border-color: rgb(204 172 0);
     border-bottom: rgb(204 172 0);
 }
 
-.gold-border {
-    border-bottom: rgb(204 172 0);
+.gold-back {
+    background-color: rgb(204 172 0);
 }
 
 .green_border {
@@ -145,6 +145,12 @@ body .page-content .categories {
 .cat-color {
     background-color: rgb(30 30 30);
     border-radius: 23px;
+}
+
+.btn-primary:hover .gold {
+    color: rgb(255 255 255);
+    background-color: rgb(204 172 0);
+    border-color: rgb(204 172 0);
 }
 
 *, ::after, ::before {
