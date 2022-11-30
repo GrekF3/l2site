@@ -48,3 +48,100 @@ body {
     background-color: rgb(39 41 42);
     border-radius: 23px;
 }
+
+
+.mb-6 {
+    margin-bottom: 6px!important;
+}
+.nk-decorated-h, .nk-decorated-h-2 {
+    display: flex;
+}
+
+.nk-decorated-h-2::after, .nk-decorated-h-2::before, .nk-decorated-h::after, .nk-decorated-h::before {
+    content: "";
+    display: block;
+    flex: 100;
+    border-bottom: 4px solid;
+    transform: translateY(-10px);
+}
+
+.nk-post-img img {
+    width: 100%;
+    height: auto;
+    transition: transform .15s ease-in-out;
+    transform: scale(1);
+    will-change: transform;
+}
+
+.nk-decorated-h-2::before, .nk-decorated-h::before {
+    flex: 20px;
+    width: 50px;
+    min-width: 50px;
+    border-bottom-color: white;
+    opacity: 80%;
+    margin-right: 15px;
+}
+
+.nk-decorated-h-2::after, .nk-decorated-h::after {
+    border-bottom-color: white;
+    opacity: 80%;
+    margin-left: 15px;
+}
+
+.img-ads {
+    max-width: 40px;
+}
+
+.nk-post-img {
+    display: block;
+    overflow: hidden; /* Скрываем всё за контуром */
+  }
+  .nk-post-img img {
+    transition: 0.2s; /* Время эффекта */
+    align-items: center;
+  }
+  .nk-post-img img:hover {
+    transform: scale(1.05); /* Увеличиваем масштаб */
+  }
+.ads-contet {
+    margin-top: 0;
+}
+
+.ad-button {
+    color: white;
+    background-color: rgb(72, 19, 116);
+    border-bottom-color: rgb(72, 19, 116);
+
+}
+
+.white_p {
+    color: white;
+}
+
+.black {
+    color: black;
+}
+
+.gold {
+    background-color: rgb(204 172 0);
+    border-bottom: rgb(204 172 0);
+}
+
+.gold-border {
+    border-bottom: rgb(204 172 0);
+}
+
+.green_border {
+    border-color: green;
+}
+
+body .page-content .categories {
+    margin-top: 50px;
+    background-color: rgb(39 41 42);
+    padding: 20px;
+    border-radius: 23px;
+}
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}

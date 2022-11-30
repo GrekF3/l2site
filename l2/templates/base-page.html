@@ -10,6 +10,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
 	      rel="stylesheet">
 	<title>EzServers | {% block title %} {% endblock %}</title>
+	<link rel="icon" type="image/x-icon" href="{% static 'res/images/favico/favicon.ico' %}">
 
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -23,13 +24,6 @@
 	<link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
 	<link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
 	<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
-	<!--
-
-	TemplateMo 579 Cyborg Gaming
-
-	https://templatemo.com/tm-579-cyborg-gaming
-
-	-->
 </head>
 
 <body>
@@ -62,22 +56,25 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="#">Главная</a>
+						<a class="nav-link" href="{% url 'home' %}">Главная</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#">Блог</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Премиум</a>
+						<a class="nav-link" href="{% url 'gold' %}">GOLD подписка</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Реклама</a>
+						<a class="nav-link" href="{% url 'new_Server' %}">Добавить сервер</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Контакты</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Сервера</a>
+						<a name="" id="" class="nav-link btn btn-primary" href="{% url 'profile' %}" role="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z">
+
+              </path>
+              </svg>
+              Профиль</a>
 					</li>
 				</ul>
 				<form class="d-flex">
@@ -95,6 +92,7 @@
 {% block content %}
 
 {% endblock %}
+
 
 <footer>
 	<div class="container">

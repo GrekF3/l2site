@@ -128,7 +128,7 @@ body {
 }
 
 body .page-content {
-  margin-top: 110px;
+  margin-top: 50px;
   background-color: #27292a;
   padding: 60px;
   border-radius: 23px;
@@ -1537,7 +1537,20 @@ Profile Style
 .main-profile .main-info span {
   font-size: 14px;
   color: #fff;
-  background-color: #e75e8d;
+  background-color: #BEBEBE;
+  padding: 8px 20px;
+  display: inline-block;
+  border-radius: 25px;
+  font-weight: 400;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  margin-bottom: 15px;
+}
+
+.main-profile .gold .main-info span {
+  font-size: 14px;
+  color: #fff;
+  background-color: #ccac00;
   padding: 8px 20px;
   display: inline-block;
   border-radius: 25px;

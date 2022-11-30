@@ -33,6 +33,7 @@ class ServersListView(ListView):
     model = GameServer
     context_object_name = 'server_list'
 
+
     def get_queryset(self):
         qs = self.model.objects.all()
         if self.kwargs.get('game_slug'):
@@ -42,9 +43,15 @@ class ServersListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         context['ads'] = Ads.objects.all().filter(server__online_game__game_slug=self.kwargs['game_slug'])
-
         return context
 
 
 def details(request):
-    return render(request, 'details.html')
+    return render(request, 'new_server.html')
+
+
+def profile(request):
+    return render(request,'profile.html')
+
+def gold(request):
+    return render(request, 'gold_status.html')
