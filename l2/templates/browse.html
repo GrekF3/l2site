@@ -29,11 +29,11 @@
 				<a href="{% url 'home' %}" class="hover-own">СЕРВЕРА</a>
 			</li>
 			<li class="breadcrumb-item active">
-				{% for server in server_list %}
-					{% if forloop.counter == 1 %}
-				<a href="#" class="hover-own">{{ server.online_game }}</a>
-					{% endif %}
-				{% endfor %}
+					{% for server in server_list %}
+						{% if forloop.counter == 1 %}
+					<a href="#" class="hover-own">{{ server.online_game }}</a>
+						{% endif %}
+					{% endfor %}
 			</li>
 		</ul>
 	</nav>

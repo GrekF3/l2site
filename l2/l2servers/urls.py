@@ -7,5 +7,4 @@ urlpatterns = [
     path('new_server/', details, name='new_Server'),
     path('profile/', profile, name='profile'),
     path('gold/', gold, name='gold'),
-
 ]
