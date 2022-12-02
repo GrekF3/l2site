@@ -1,4 +1,13 @@
+from django.views.generic import ListView
 from django.shortcuts import render
+from .models import BlogPost
 
-def blog(request):
-    return render(request, 'blog.html')
+class BlogPostListView(ListView):
+    model = BlogPost
+    template_name = "blog.html"
+    context_object_name = 'posts_list'
+
+    def get_queryset(self):
+        qs = self.model.objects.all()
+        return qs
+
