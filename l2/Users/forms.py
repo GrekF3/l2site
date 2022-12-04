@@ -1,28 +1,43 @@
-from django import forms
+from django.forms import ModelForm, TextInput, FileInput, EmailInput, PasswordInput
 from django.contrib.auth.models import User
 from .models import Profile
+from django import forms
+from django.core.files.images import get_image_dimensions
 
 
-
-class ProfileForm(forms.ModelForm):
-    
-    bio = forms.CharField(max_length=125, required=False)
-    avatar = forms.ImageField(required=False)
-    is_gold = forms.BooleanField(required=False)
+class ProfileForm(ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('bio', 'avatar', 'is_gold', 'link')
+        fields = ['bio','is_gold', 'link', 'avatar']
+        
+        widgets = {
+            'bio': TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'avatar': FileInput(attrs={
+                'class': 'form-control',
+            }),
+        }
 
-class UserForm(forms.ModelForm):
+class UserForm(ModelForm):
 
-    first_name = forms.CharField(required=None)
-    last_name = forms.CharField(required=None)
-    email = forms.EmailField(required=True)
-    username = forms.CharField(max_length=60, required=True)
-
-    
     class Meta:
         model = User
-        fields = ("first_name",'last_name', 'email', 'username')
+        fields = ["first_name",'last_name', 'email', 'username']
+        required_fields = ['email', 'username']
+        widgets = {
+            'first_name': TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'last_name': TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'email': EmailInput(attrs={
+                'class': 'form-control'
+            }),
+            'username': TextInput(attrs={
+                'class': 'form-control',
+            }),
+        }
     

@@ -9,18 +9,28 @@
 
 <body>
   {% block content %}
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+      {% endfor %}
+  </ul>
+  {% endif %}
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
         <div class="page-content">
           <!-- ***** Banner Start ***** -->
-          {% csrf_token %}
           <div class="row">
             <div class="col-lg-12">
               <div class="main-profile ">
                 <div class="row">
                   <div class="col-lg-4">
+                    {% if profile_form.instance.avatar.url != None %}
                     <img src="{{ profile_form.instance.avatar.url }}" alt="Profile_img" class="profile-avatar">
+                    {% else %}
+                    <img src="{% static 'assets/images/def_ava.jpeg' %}" alt="Profile_img" class="profile-avatar">
+                    {% endif %}
                   </div>
                   <div class="col-lg-4 align-self-center gold">
                     <div class="main-info header-text">
@@ -29,7 +39,7 @@
                       {% else %}
                       <span class="badge bg-secondary"><b>ОБЫЧНЫЙ</b></span>
                       {% endif %}
-                      <h4>{{ User_from.instance.username }}</h4>
+                      <h4>{{ user_form.instance.username }}</h4>
                       <p>{{ profile_form.instance.bio }}</p>
                       <div class="main-border-button">
                         <a href="{% url 'new_Server' %}">Подписаться</a>
@@ -78,31 +88,27 @@
 
                         <div class="col-lg-12">
                           <div class="container white_p p-0">
-                            <form class="row g-3 needs-validation" method="POST" novalidate>
+                            <form class="row g-3 needs-validation" method="POST" enctype="multipart/form-data" novalidate>
                               {% csrf_token %}
                               <div class="col-md-4 position-relative">
-                                <fieldset disabled>
                                 <label for="validationTooltip01" class="form-label">Имя</label>
-                                <input type="text" class="form-control" id="id_first_name" value="{{ user.first_name }}">
+                                {{ user_form.first_name }}
                               </div>
                               <div class="col-md-4 position-relative">
-                                <fieldset disabled>
                                 <label for="validationTooltip02" class="form-label">Фамилия</label>
-                                <input type="text" class="form-control" id="id_last_name" value="{{ user.last_name}}">
+                                {{ user_form.last_name }}
                               </div>
                               <div class="col-md-4 position-relative">
-                                <fieldset disabled>
                                 <label for="validationTooltipUsername" class="form-label">Никнейм</label>
                                 <div class="input-group has-validation">
                                   <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
-                                  <input type="text" class="form-control" id="id_username" aria-describedby="validationTooltipUsernamePrepend" value="{{ user }}" required>
+                                  {{ user_form.username }}
                                 </div>
-                                </fieldset disabled>
                               </div>
                               <div class="col-md-4 position-relative">
                                 <label for="validationTooltip03" class="form-label">Статус</label>
                                 <div class="input-group has-validation">
-                                  <input type="text" maxlenght="125" class="form-control" id="id_bio" aria-describedby="validationTooltipUsernamePrepend" value="{{ profile_form.instance.bio }}">
+                                  {{ profile_form.bio }}
                                   <div class="valid-tooltip">
                                     Отличный статус!
                                   </div>
@@ -110,31 +116,22 @@
                               </div>
 
                               <div class="col-md-4 position-relative">
-                              <fieldset disabled>
                                 <label for="validationTooltip03" class="form-label">Почта</label>
                                 <div class="input-group has-validation">
-                                  <input type="text" class="form-control" id="id_email" aria-describedby="validationTooltipUsernamePrepend" value="{{ user.email }}">
-                                  <div class="valid-tooltip">
-                                  </div>
+                                  {{ user_form.email }}
                                 </div>
-                                </fieldset disabled>
                               </div>
 
                               <div class="col-md-4 position-relative">
                                 <label for="formFile" class="form-label">Изображение профиля</label>
-                                <input class="form-control" type="file" id="id_avatar">
-                              </div>
-
-                              <div class="col-md-4 position-relative">
-                                <label for="validationTooltip03" class="form-label">Пароль</label>
-                                <input type="paswword" class="form-control" id="validationTooltip03" required>
-                                <div class="invalid-tooltip">
-                                  Обязательное поле!
-                                </div>
-                              </div>                            
+                                {{ profile_form.avatar }}
+                              </div>                        
                               
                               <div class="col-12">
                                 <button class="btn btn-success" type="submit">Отправить</button>
+                              </div>
+                              <div class="col-12">
+                                <a name="Change-password" id="Change-password" class="btn btn-danger" href="{% url 'password_change' %}" role="button">Изменить пароль</a>
                               </div>
                             </form>
                           </div>

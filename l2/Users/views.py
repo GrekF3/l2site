@@ -1,34 +1,31 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
 from django.contrib import messages
 from .forms import UserForm, ProfileForm
-from django.contrib.auth import get_user_model
+
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'change_password.html'
+    success_message = "Вы успешно изменили пароль"
+    success_url = reverse_lazy('home')
+
 
 @login_required
-@transaction.atomic
 def profile(request, username):
     if request.method == 'POST':
-        user = request.user
-        form = UserForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            user_form = form.save()
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
 
-            messages.success(request, f'{user_form}, Ваш профиль был обновлен.')
-            return redirect('profile', user_form.username)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect('profile', request.user.username)
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
 
-        for error in list(form.errors.values()):
-            messages.error(request, error)
-
-    user = get_user_model().objects.filter(username=username).first()
-    if user:
-        Profileform = ProfileForm(instance=user.profile)
-        Userform = UserForm(instance=user)
-        context = {
-            'profile_form' : Profileform,
-            'User_from' : Userform,
-        }
-        
-        return render(request, 'profile.html', context=context)
-
-    return redirect("home")
+    return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form})

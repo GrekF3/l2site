@@ -178,6 +178,8 @@ body .page-content .categories {
 .profile-avatar {
     border-radius: 23px; 
     max-width: 300px;
+    max-height: 300px;
+    
 }
 
 .comment-avatar {
