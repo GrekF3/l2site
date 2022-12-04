@@ -8,17 +8,18 @@ class BlogPost(models.Model):
     date_published = models.DateField(verbose_name='Дата публикации')
     blog_text = tinymce_model.HTMLField(verbose_name='Текст поста')
     blog_image = models.ImageField(upload_to="posts_images", verbose_name='Главная картинка поста', help_text='Не более 400х400')
-    blog_slug = models.SlugField(unique=True, db_index=True, null=True, blank=True, default=None, verbose_name='URL')
+    slug = models.SlugField(max_length=400, unique=True, db_index=True, verbose_name="URL", default=None)
 
     def save(self, *args, **kwargs):
-        self.blog_slug = slugify(self.blog_title)
+        self.blog_slug = slugify(self.blog_title, allow_unicode=True)
         super().save(*args, **kwargs)
-    
-    def get_absolute_url(self):
-        return reverse("post", kwargs={"blog_slug": self.blog_slug})
     
     def __str__(self):
         return str(f'{self.blog_title}')
+
+    def get_absolute_url(self):
+        return reverse("post", kwargs={"slug": self.slug})
+    
 
     class Meta:
         verbose_name = 'Пост'

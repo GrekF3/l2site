@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'Users',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -95,7 +96,7 @@ WSGI_APPLICATION = 'l2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'servers',
+        'NAME': 'site-bd',
         'USER': 'skyhelper',
         'PASSWORD': 'admin',
         'HOST': '127.0.0.1',

@@ -13,25 +13,26 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="page-content">
-
           <!-- ***** Banner Start ***** -->
+          {% csrf_token %}
           <div class="row">
             <div class="col-lg-12">
               <div class="main-profile ">
                 <div class="row">
                   <div class="col-lg-4">
-                    <img src="{% static 'assets/images/profile.jpg' %}" alt="Profile_img" style="border-radius: 23px;">
+                    <img src="{{ profile_form.instance.avatar.url }}" alt="Profile_img" class="profile-avatar">
                   </div>
                   <div class="col-lg-4 align-self-center gold">
                     <div class="main-info header-text">
-                      <span><b>GOLD подписка</b></span>
-                      <h4>{{ user }}</h4>
-                      <p>Какой-то статус</p>
+                      {% if profile_form.instance.is_gold == True %}
+                      <span class="badge bg-warning"><b>GOLD подписка</b></span>
+                      {% else %}
+                      <span class="badge bg-secondary"><b>ОБЫЧНЫЙ</b></span>
+                      {% endif %}
+                      <h4>{{ User_from.instance.username }}</h4>
+                      <p>{{ profile_form.instance.bio }}</p>
                       <div class="main-border-button">
                         <a href="{% url 'new_Server' %}">Подписаться</a>
-                      </div>
-                      <div class="main-border-button">
-                        <a href="{% url 'new_Server' %}">Редактировать профиль</a>
                       </div>
                     </div>
                   </div>
@@ -66,10 +67,87 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-lg-12">
+                    <div class="clips">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="heading-section">
+                            <h4>Редактировать профиль</h4>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                          <div class="container white_p p-0">
+                            <form class="row g-3 needs-validation" method="POST" novalidate>
+                              {% csrf_token %}
+                              <div class="col-md-4 position-relative">
+                                <fieldset disabled>
+                                <label for="validationTooltip01" class="form-label">Имя</label>
+                                <input type="text" class="form-control" id="id_first_name" value="{{ user.first_name }}">
+                              </div>
+                              <div class="col-md-4 position-relative">
+                                <fieldset disabled>
+                                <label for="validationTooltip02" class="form-label">Фамилия</label>
+                                <input type="text" class="form-control" id="id_last_name" value="{{ user.last_name}}">
+                              </div>
+                              <div class="col-md-4 position-relative">
+                                <fieldset disabled>
+                                <label for="validationTooltipUsername" class="form-label">Никнейм</label>
+                                <div class="input-group has-validation">
+                                  <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
+                                  <input type="text" class="form-control" id="id_username" aria-describedby="validationTooltipUsernamePrepend" value="{{ user }}" required>
+                                </div>
+                                </fieldset disabled>
+                              </div>
+                              <div class="col-md-4 position-relative">
+                                <label for="validationTooltip03" class="form-label">Статус</label>
+                                <div class="input-group has-validation">
+                                  <input type="text" maxlenght="125" class="form-control" id="id_bio" aria-describedby="validationTooltipUsernamePrepend" value="{{ profile_form.instance.bio }}">
+                                  <div class="valid-tooltip">
+                                    Отличный статус!
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-md-4 position-relative">
+                              <fieldset disabled>
+                                <label for="validationTooltip03" class="form-label">Почта</label>
+                                <div class="input-group has-validation">
+                                  <input type="text" class="form-control" id="id_email" aria-describedby="validationTooltipUsernamePrepend" value="{{ user.email }}">
+                                  <div class="valid-tooltip">
+                                  </div>
+                                </div>
+                                </fieldset disabled>
+                              </div>
+
+                              <div class="col-md-4 position-relative">
+                                <label for="formFile" class="form-label">Изображение профиля</label>
+                                <input class="form-control" type="file" id="id_avatar">
+                              </div>
+
+                              <div class="col-md-4 position-relative">
+                                <label for="validationTooltip03" class="form-label">Пароль</label>
+                                <input type="paswword" class="form-control" id="validationTooltip03" required>
+                                <div class="invalid-tooltip">
+                                  Обязательное поле!
+                                </div>
+                              </div>                            
+                              
+                              <div class="col-12">
+                                <button class="btn btn-success" type="submit">Отправить</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

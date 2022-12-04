@@ -83,13 +83,25 @@
         	<div class="page-content mt-0 p-5">
             <div class="row row-cols-1 row-cols-md-2 g-4">
               {% for post in posts_list  %}
-              <div class="col">
-                <div class="card nk-post-img">
-                  <img src="https://www.top100arena.com/storage/banners/8mZMlkfaNOnJT5gL5JKPXU1pJuYqN0tpK3HVtDG6.gif" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">{{ post.blog_title }}</h5>
-                    <p class="card-text truncate-text">{{  post.blog_text|safe|truncatewords:20 }}</p>
+              <div class="col nk-post-img">
+                <div class="card blog-color nk-post-img">
+
+                  <a href="{{ post.get_absolute_url }}"><img src="https://mdbootstrap.com/img/Photos/Slides/img%20(144).jpg" class="card-img-top " alt="..."></a>
+
+                  <div class="card-body p-0 mt-3">
+                    <a href="{{ post.get_absolute_url }}"><h4 class="card-title h4 mb-3">{{ post.blog_title }}</h4></a>
+                    <p class="card-text">
+                      {{ post.blog_text|safe|truncatewords:20 }}
+                    <p class="mt-2 d-flex align-items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3 mr-2" viewBox="0 0 16 16">
+                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                      </svg>
+                      {{ post.date_published|date:"F d, Y" }}
+                    </p>
+                    <a class ="btn btn-outline-info cat-color mt-3" href="{{ post.get_absolute_url }}">Читать полностью</a>
                   </div>
+
                 </div>
               </div>
               {% endfor %}

@@ -45,13 +45,8 @@ class ServersListView(ListView):
         context['ads'] = Ads.objects.all().filter(server__online_game__game_slug=self.kwargs['game_slug'])
         return context
 
-
 def details(request):
     return render(request, 'new_server.html')
-
-
-def profile(request):
-    return render(request,'profile.html')
 
 def gold(request):
     return render(request, 'gold_status.html')

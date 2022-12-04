@@ -74,11 +74,11 @@ https://templatemo.com/tm-579-cyborg-gaming
     {% block content %}
     <div class="container mt-5">
       <form class="was-validated">
-        <a name="" id="" class="btn ad-button mt-2" href="https://t.me/GrekF3" role="button">Купить рекламу</a>
-        <a name="" id="" class="btn ad-button mt-2" href="{% url 'gold' %}" role="button">GOLD подписка</a>
-        <a name="" id="" class="btn ad-button mt-2" href="https://t.me/GrekF3" role="button">Связаться</a>
-        <div class="mb-3 mt-4">
-          <select class="form-select" required aria-label="select example">
+        <a name="ads" id="buy_ads" class="btn mt-2 btn-secondary" href="https://t.me/GrekF3" role="button">Купить рекламу</a>
+        <a name="contact" id="contact" class="btn mt-2 btn-secondary" href="https://t.me/GrekF3" role="button">Связаться</a>
+        <a name="gold_status" id="gold_status" class="btn mt-2 btn-warning" href="{% url 'gold' %}" role="button">GOLD подписка</a>
+        <div class="mb-2 mt-4">
+          <select class="form-select" required aria-label="Выберите Вашу игру">
             <option value="">Игра</option>
             <option value="Lineage_2">Lineage 2</option>
             <option value="Dota-2">Rust</option>
@@ -92,21 +92,22 @@ https://templatemo.com/tm-579-cyborg-gaming
           <div class="invalid-feedback">Пожалуйста выберите игру</div>
         </div>
         <div class="mb-2">
-          <input type="file" class="form-control" aria-label="file example" required>
+          <input type="file" class="form-control" aria-label="Загрузите изображение сервера" required>
           <div class="invalid-feedback">GIF-изображение должно быть максимум 728х90 px</div>
+        </div>
+        <div class="mb-2">
+          <input type="link" class="form-control" placeholder="l2.ru" aria-label="Введите Вашу ссылку" required>
+          <div class="invalid-feedback">Ссылка на Ваш сайт</div>
         </div>
         <div class="mb-3">
           <label for="" class="form-label"></label>
           <textarea class="form-control" name="" id="" rows="3" placeholder="Описание Вашего сервера" required></textarea>
           <div class="invalid-feedback">Указывайте отдельным текстом хроники/версию сервера</div>
         </div>
-        
         <h4> Первые 3 сервера - бесплатно. </h2>
-        <h4> Модерация серверов - в течении 3-х дней </h2>
-
-
+        <h4> Модерация серверов - в течении 3-х дней </h4>
         <div class="mb-3 mt-3">
-          <button class="btn btn-primary" type="submit" disabled>Отправить</button>
+          <button class="btn btn-success" type="submit" disabled>Отправить</button>
         </div>
       </form>
     </div>
