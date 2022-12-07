@@ -8,14 +8,17 @@ from .models import GameServer, Ads
 
 
 def index(request):
-    lineage2_servers = GameServer.objects.all().filter(online_game='lineage-2')
-    rust_servers = GameServer.objects.all().filter(online_game='Rust')
-    wow_servers = GameServer.objects.all().filter(online_game='Minecraft')
-    csgo_servers = GameServer.objects.all().filter(online_game='Word_of_Warcraft')
-    arma3_servers = GameServer.objects.all().filter(online_game='csgo')
-    dayz_servers = GameServer.objects.all().filter(online_game='arma3')
-    others_servers = GameServer.objects.all().filter(online_game='DayZ')
-    minecraft_servers = GameServer.objects.all().filter(online_game='Others')
+    lineage2_servers = GameServer.objects.all().filter(online_game='lineage-2').filter(moderate=True)
+    rust_servers = GameServer.objects.all().filter(online_game='Rust').filter(moderate=True)
+    wow_servers = GameServer.objects.all().filter(online_game='Minecraft').filter(moderate=True)
+    csgo_servers = GameServer.objects.all().filter(online_game='Word_of_Warcraft').filter(moderate=True)
+    arma3_servers = GameServer.objects.all().filter(online_game='csgo').filter(moderate=True)
+    dayz_servers = GameServer.objects.all().filter(online_game='arma3').filter(moderate=True)
+    others_servers = GameServer.objects.all().filter(online_game='DayZ').filter(moderate=True)
+    minecraft_servers = GameServer.objects.all().filter(online_game='Others').filter(moderate=True)
+
+    all_server = GameServer.objects.all().filter(moderate=True).count()
+    moderate = GameServer.objects.all().filter(moderate=False).count()
 
     context = {
         'l2servers_count': len(lineage2_servers),
@@ -26,6 +29,8 @@ def index(request):
         'Dayz_Count': len(dayz_servers),
         'Others_Count': len(others_servers),
         'Minecraft_count': len(minecraft_servers),
+        'allservers':all_server,
+        'moderate':moderate,
     }
 
     return render(request, context=context, template_name='index.html')

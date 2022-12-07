@@ -49,21 +49,12 @@ https://templatemo.com/tm-579-cyborg-gaming
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'new_Server' %}">Добавить сервер</a>
 					</li>
-          <li class="nav-item">
-						<a name="" id="" class="nav-link btn btn-primary" href="{% url 'profile' user %}" role="button">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z">
-
-              </path>
-              </svg>
-              Профиль</a>
-					</li>
 				</ul>
-				<form class="d-flex">
-					<input class="form-control me-2" type="search" placeholder="Введите свой запрос..."
-					       aria-label="Search">
-					<button class="btn btn-outline-success" type="submit">Поиск</button>
-				</form>
+        <a class="white_p btn btn-primary" href="{% url 'profile' user %}" role="button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-person" viewBox="0 0 16 16">
+					<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"></path>
+					</svg>Профиль
+        </a>
 			</div>
 		</div>
 	</nav>
@@ -102,6 +93,38 @@ https://templatemo.com/tm-579-cyborg-gaming
           </div>
           <!-- ***** Banner End ***** -->
 
+          <section class="mt-5 mt-2">
+            <div class="container px-4">
+              <div class="row gx-5">
+                <div class="col">
+                  <div class="d-flex justify-content-center p-3 border bg-dark text-white text-center">
+                    <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                      <div class="card-header">Активных серверов:</div>
+                      <div class="card-body">
+                        <div class="count1 h1 text-center" data-from="0" data-to="{{ allservers }}" data-time="200">
+                          0
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="d-flex justify-content-center p-3 border bg-dark text-white text-center">
+                    <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                      <div class="card-header">Сервера на модерации:</div>
+                      <div class="card-body">
+                        <div class="count2 h1 text-center" data-from="0" data-to="{{ moderate }}" data-time="200">
+                          0
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <!-- ***** Most Popular Start ***** -->
           <div class="most-popular">
             <div class="row">
@@ -111,100 +134,100 @@ https://templatemo.com/tm-579-cyborg-gaming
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-sm-6">
+                  <a href="{% url 'servers' 'lineage-2' %}">
                     <div class="item">
-                      <a href="{% url 'servers' 'lineage-2' %}">
-                        <img src="{% static 'assets/images/popular-01.jpg' %}" alt="">
+                      <img src="{% static 'assets/images/popular-01.jpg' %}" alt="">
                       <h4>Lineage 2<br><span>Серверов</span></h4>
                       <ul>
                         <li><i class="fa fa-star"></i> 4.8</li>
                         <li><i class="fa fa-download"></i> {{ l2servers_count }}</li>
                       </ul>
-                      </a>
                     </div>
+                  </a>
                   </div>
                   <div class="col-lg-3 col-sm-6">
+                    <a href="{% url 'servers' 'minecraft' %}">
                     <div class="item">
-                      <a href="{% url 'servers' 'minecraft' %}">
                       <img src="{% static 'assets/images/popular-02.jpg' %}" alt="">
                       <h4>Minecraft<br><span>Серверов</span></h4>
                       <ul>
                         <li><i class="fa fa-star"></i> 4.8</li>
                         <li><i class="fa fa-download"></i> {{ Minecraft_count }}</li>
                       </ul>
-                      </a>
                     </div>
+                  </a>
                   </div>
                   <div class="col-lg-3 col-sm-6">
+                    <a href="{% url 'servers' 'rust' %}">
                     <div class="item">
-                      <a href="{% url 'servers' 'rust' %}">
                         <img src="{% static 'assets/images/popular-03.jpg' %}" alt="">
                         <h4>Rust<br><span>Серверов</span></h4>
                       <ul>
                         <li><i class="fa fa-star"></i> 4.8</li>
                         <li><i class="fa fa-download"></i> {{ Rust_Count }}</li>
                       </ul>
-                      </a>
                     </div>
+                  </a>
                   </div>
                   <div class="col-lg-3 col-sm-6">
+                    <a href="{% url 'servers' 'cs-go' %}">
                     <div class="item">
-                      <a href="{% url 'servers' 'cs-go' %}">
                         <img src="{% static 'assets/images/popular-04.jpg' %}" alt="">
                         <h4>CS-GO<br><span>Серверов</span></h4>
                       <ul>
                         <li><i class="fa fa-star"></i> 4.8</li>
                         <li><i class="fa fa-download"></i> {{ CsGo_count }}</li>
                       </ul>
-                        </a>
                     </div>
+                  </a>
                   </div>
                   <div class="col-lg-3 col-sm-6">
+                    <a href="{% url 'servers' 'world-of-warcraft' %}">
                     <div class="item">
-                      <a href="{% url 'servers' 'world-of-warcraft' %}">
                         <img src="{% static 'assets/images/popular-05.jpg' %}" alt="">
                         <h4>World of Warcraft<br><span>Серверов</span></h4>
                       <ul>
                         <li><i class="fa fa-star"></i> 4.8</li>
                         <li><i class="fa fa-download"></i> {{ Wow_Count }}</li>
                       </ul>
-                        </a>
                     </div>
+                  </a>
                   </div>
                   <div class="col-lg-3 col-sm-6">
+                    <a href="{% url 'servers' 'arma-3' %}">
                     <div class="item">
-                      <a href="{% url 'servers' 'arma-3' %}">
                         <img src="{% static 'assets/images/popular-06.jpg' %}" alt="">
                         <h4>ARMA 3<br><span>Серверов</span></h4>
                       <ul>
                         <li><i class="fa fa-star"></i> 4.8</li>
                         <li><i class="fa fa-download"></i> {{ Arma3_count }}</li>
                       </ul>
-                        </a>
                     </div>
+                  </a>
                   </div>
                   <div class="col-lg-3 col-sm-6">
+                    <a href="{% url 'servers' 'dayz' %}">
                     <div class="item">
-                      <a href="{% url 'servers' 'dayz' %}">
                       <img src="{% static 'assets/images/popular-07.jpg' %}" alt="">
                       <h4>DayZ<br><span>Серверов</span></h4>
                       <ul>
                         <li><i class="fa fa-star"></i> 4.8</li>
                         <li><i class="fa fa-download"></i> {{ Dayz_Count }}</li>
                       </ul>
-                      </a>
                     </div>
+                  </a>
                   </div>
                   <div class="col-lg-3 col-sm-6">
-                    <div class="item">
-                      <a href="{% url 'servers' 'others' %}">
-                      <img src="{% static 'assets/images/popular-08.jpg' %}" alt="">
-                      <h4>Другие<br><span>Серверов</span></h4>
-                      <ul>
-                        <li><i class="fa fa-star"></i> 4.8</li>
-                        <li><i class="fa fa-download"></i> {{ Others_Count }}</li>
-                      </ul>
-                      </a>
-                    </div>
+                    <a href="{% url 'servers' 'others' %}">
+                      <div class="item">
+                        <img src="{% static 'assets/images/popular-08.jpg' %}" alt="">
+                        <h4>Другие<br><span>Серверов</span></h4>
+                        <ul>
+                          <li><i class="fa fa-star"></i> 4.8</li>
+                          <li><i class="fa fa-download"></i> {{ Others_Count }}</li>
+                        </ul>
+                      </div>
+                    </a>
                   </div>
                 </div>
               </div>
