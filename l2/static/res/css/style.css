@@ -220,3 +220,13 @@ body .page-content .categories {
 *, ::after, ::before {
     box-sizing: border-box;
 }
+
+.blog-img {
+    max-width: 250px;
+    max-height: 250px;
+}
+
+.form-floating > .bi-calendar-date + .datepicker_input + label {
+    padding-left: 3.5rem;
+    z-index: 3;
+  }

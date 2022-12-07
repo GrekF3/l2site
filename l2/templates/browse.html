@@ -40,12 +40,14 @@
 </div>
 
 <!-- Контент -->
+{% if server_list %}
 <div class="container">
 	<div class="row">
 
     	<div class="col-lg-8">
         	<div class="page-content mt-0 p-0">
 			{% for server in server_list %}
+				{% if server.moderate == True %}
 			<div class="d-flex container-xxl pt-2 page-bp">
 				<div class="nk-blog-post">
 					<div class="row vertical-gap">
@@ -96,6 +98,7 @@
 					</div>
 				</div>
 			</div>
+				{% endif %}
 			{% endfor %}
 			</div>
 		</div>
@@ -210,6 +213,126 @@
 		</div>
 	</div>
 </div>
+{% else %}
+<div class="container">
+	<div class="row">
+
+    	<div class="col-lg-8">
+			<h3>Сервера пока не добавлены</h3>
+		</div>
+		
+		<div class="col-lg-4">
+			<div class="page-content mt-0 p-0 position-sticky sticky-top">
+				<div class="align-items-center text-center pt-4"> 
+					<h4 class="nk-widget-title text-center"><span>Категории</span></h4>
+				</div>
+				<div class="list-group mt-3 p-3 pt-0">
+					<ul class="list-group-flush">
+						<li class="cat-color">
+							<a href="{% url 'servers' 'lineage-2' %}" class="cat-color white_p list-group-item list-group-item-action d-flex justify-content-start">
+								<div class="row align-items-center">
+									<div class="col-lg-3 col-2">
+									<img src="{% static 'assets/images/icons/lineage.png' %}" style="max-height: 50px; border-radius: 50%;" alt="Lineage-2">
+									</div>
+									<div class="col">
+									Lineage 2 Сервера
+									</div>
+								</div>
+							</a>
+						</li>
+						<li class="cat-color mt-2">
+							<a href="{% url 'servers' 'minecraft' %}" class="cat-color white_p list-group-item list-group-item-action d-flex justify-content-start">
+								<div class="row align-items-center">
+									<div class="col-lg-3 col-2">
+									<img src="{% static 'assets/images/icons/minecraft.png' %}" style="max-height: 50px; border-radius: 50%;" alt="Minectaft">
+									</div>
+									<div class="col">
+									Minectaft Сервера
+									</div>
+								</div>
+							</a>
+						</li>
+						<li class="cat-color mt-2">
+							<a href="{% url 'servers' 'rust' %}" class="cat-color white_p list-group-item list-group-item-action d-flex justify-content-start">
+								<div class="row align-items-center">
+									<div class="col-lg-3 col-2">
+									<img src="{% static 'assets/images/icons/rust.png' %}" style="max-height: 50px; border-radius: 50%;" alt="Rust">
+									</div>
+									<div class="col">
+									Rust Сервера
+									</div>
+								</div>
+							</a>
+						</li>
+						<li class="cat-color mt-2">
+							<a href="{% url 'servers' 'cs-go' %}" class="cat-color white_p list-group-item list-group-item-action d-flex justify-content-start">
+								<div class="row align-items-center">
+									<div class="col-lg-3 col-2">
+									<img src="{% static 'assets/images/icons/csgo.png' %}" style="max-height: 50px; border-radius: 50%;" alt="csgo">
+									</div>
+									<div class="col">
+									CS-GO Сервера
+									</div>
+								</div>
+							</a>
+						</li>
+						<li class="cat-color mt-2">
+							<a href="{% url 'servers' 'world-of-warcraft' %}" class="cat-color white_p list-group-item list-group-item-action d-flex justify-content-start">
+								<div class="row align-items-center">
+									<div class="col-lg-3 col-2">
+									<img src="{% static 'assets/images/icons/wow.png' %}" style="max-height: 50px; border-radius: 50%;" alt="WOW">
+									</div>
+									<div class="col">
+									WOW Сервера
+									</div>
+								</div>
+							</a>
+						</li>
+						<li class="cat-color mt-2">
+							<a href="{% url 'servers' 'arma-3' %}" class="cat-color white_p list-group-item list-group-item-action d-flex justify-content-start">
+								<div class="row align-items-center">
+									<div class="col-lg-3 col-2">
+									<img src="{% static 'assets/images/icons/arma.png' %}" style="max-height: 50px; border-radius: 50%;" alt="ARMA3">
+									</div>
+									<div class="col">
+									ARMA3 Сервера
+									</div>
+								</div>
+							</a>
+						</li>
+						<li class="cat-color mt-2">
+							<a href="{% url 'servers' 'dayz' %}" class="cat-color white_p list-group-item list-group-item-action d-flex justify-content-start">
+								<div class="row align-items-center">
+									<div class="col-lg-3 col-2">
+									<img src="{% static 'assets/images/icons/dayz.png' %}" style="max-height: 50px; border-radius: 50%;" alt="DAYZ">
+									</div>
+									<div class="col">
+									DAYZ Сервера
+									</div>
+								</div>
+							</a>
+						</li>
+						<li class="cat-color mt-2">
+							<a href="{% url 'servers' 'others' %}" class="cat-color white_p list-group-item list-group-item-action d-flex justify-content-start">
+								<div class="row align-items-center">
+									<div class="col-lg-3 col-2">
+									<img src="{% static 'assets/images/icons/other.png' %}" style="max-height: 50px; border-radius: 50%;" alt="other">
+									</div>
+									<div class="col">
+									Другие Сервера
+									</div>
+								</div>
+							</a>
+						</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
 {% endblock %}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>

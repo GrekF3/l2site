@@ -1,18 +1,13 @@
 from django.contrib import admin
-from .models import Game, GameServer, Ads
-
-
-@admin.register(Game)
-class GameAdmin(admin.ModelAdmin):
-    """доступные игры"""
-    prepopulated_fields = {'game_slug': ('name',), }
+from .models import GameServer, Ads
 
 
 @admin.register(GameServer)
 class ServersAdmin(admin.ModelAdmin):
     """доступные сервера"""
+    list_display = [f'name', 'online_game', 'moderate']
     prepopulated_fields = {'server_slug': ('name',), }
-
+    ordering = ['moderate']
 
 @admin.register(Ads)
 class AdsAdmin(admin.ModelAdmin):

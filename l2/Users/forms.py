@@ -8,6 +8,7 @@ from django.core.files.images import get_image_dimensions
 class ProfileForm(ModelForm):
 
     class Meta:
+        
         model = Profile
         fields = ['bio','is_gold', 'link', 'avatar']
         

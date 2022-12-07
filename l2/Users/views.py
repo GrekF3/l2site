@@ -6,6 +6,8 @@ from .forms import UserForm, ProfileForm
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
+from blog.models import BlogPost
+from .models import Profile
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
@@ -14,7 +16,22 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
 
 
 @login_required
+# Вместо Username можем ставить link,slug,id, в общем любое обозначение ссылки на пользователя
 def profile(request, username):
+
+    # Получение нужного пользователя по никнейму
+    get_current_user = get_object_or_404(Profile,link__iexact=username)
+
+
+    # Получем его посты
+    user_context = BlogPost.objects.all().filter(author=get_current_user.id)
+    posts_count = user_context.count()
+
+    # Тест
+    print(get_current_user, user_context)
+    
+
+    # ------------------ Редактирование профиля ----------------------
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
@@ -22,10 +39,11 @@ def profile(request, username):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Your profile is updated successfully')
+            messages.success(request, 'Ваш профиль успешно обновлен')
             return redirect('profile', request.user.username)
     else:
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
+    # ------------------ Редактирование профиля ----------------------
 
-    return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form, 'posts':user_context, 'posts_count': posts_count, 'profile':get_current_user})

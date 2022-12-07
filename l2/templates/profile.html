@@ -4,18 +4,11 @@
 <html lang="en">
 
   <head>
-    {% block title %} Профиль {{ user }} {% endblock title %} 
+    {% block title %} {{ user }} {% endblock title %} 
   </head>
 
 <body>
   {% block content %}
-  {% if messages %}
-  <ul class="messages">
-      {% for message in messages %}
-      <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-      {% endfor %}
-  </ul>
-  {% endif %}
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
@@ -26,21 +19,21 @@
               <div class="main-profile ">
                 <div class="row">
                   <div class="col-lg-4">
-                    {% if profile_form.instance.avatar.url != None %}
-                    <img src="{{ profile_form.instance.avatar.url }}" alt="Profile_img" class="profile-avatar">
+                    {% if profile.avatar.url != None %}
+                    <img src="{{ profile.avatar.url }}" alt="Profile_img" class="profile-avatar">
                     {% else %}
                     <img src="{% static 'assets/images/def_ava.jpeg' %}" alt="Profile_img" class="profile-avatar">
                     {% endif %}
                   </div>
                   <div class="col-lg-4 align-self-center gold">
                     <div class="main-info header-text">
-                      {% if profile_form.instance.is_gold == True %}
+                      {% if profile.is_gold == True %}
                       <span class="badge bg-warning"><b>GOLD подписка</b></span>
                       {% else %}
                       <span class="badge bg-secondary"><b>ОБЫЧНЫЙ</b></span>
                       {% endif %}
-                      <h4>{{ user_form.instance.username }}</h4>
-                      <p>{{ profile_form.instance.bio }}</p>
+                      <h4>{{ profile.user }}</h4>
+                      <p>{{ profile.bio }}</p>
                       <div class="main-border-button">
                         <a href="{% url 'new_Server' %}">Подписаться</a>
                       </div>
@@ -48,7 +41,7 @@
                   </div>
                   <div class="col-lg-4 align-self-center">
                     <ul>
-                      <li>Посты <span>0</span></li>
+                      <li>Посты <span>{{ posts_count }}</span></li>
                       <li>Подписчики <span>0</span></li>
                     </ul>
                   </div>
@@ -63,20 +56,29 @@
                           </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
+                          {% if posts %}
+                          {% for post in posts %}
                           <div class="item">
                             <div class="thumb">
-                              <img src="assets/images/clip-01.jpg" alt="" style="border-radius: 23px;">
-                              <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>
+                              <img src="{{ post.blog_image.url }}" alt="" style="border-radius: 23px;">
+                              <a href="{{ post.get_absolute_url }}" target="_blank"><i class="fa fa-podcast"></i></a>
                             </div>
                             <div class="down-content">
-                              <h4>Название поста</h4>
-                              <span><i class="fa fa-eye"></i> 0</span>
+                              <h4>{{ post.blog_title }}</h4>
+                              <span><i class="fa fa-eye"></i> {{ post.total_views }}</span>
                             </div>
                           </div>
+                          {% endfor %}
+                          {% else %}
+                          <div>
+                              <p>Нет опубликованных постов</p>
+                          </div>
+                          {% endif %}
                         </div>
                       </div>
                     </div>
                   </div>
+                  {% if profile.link == request.user.username %}
                   <div class="col-lg-12">
                     <div class="clips">
                       <div class="row">
@@ -140,6 +142,7 @@
                       </div>
                     </div>
                   </div>
+                  {% endif %}
                 </div>
               </div>
             </div>

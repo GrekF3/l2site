@@ -1,18 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import ListView
+from django.contrib.auth.decorators import login_required
+from .forms import GameServerForm
+from django.contrib import messages
 
 from .models import GameServer, Ads
 
 
 def index(request):
-    lineage2_servers = GameServer.objects.all().filter(online_game_id='1')
-    rust_servers = GameServer.objects.all().filter(online_game_id='2')
-    wow_servers = GameServer.objects.all().filter(online_game_id='3')
-    csgo_servers = GameServer.objects.all().filter(online_game_id='4')
-    arma3_servers = GameServer.objects.all().filter(online_game_id='5')
-    dayz_servers = GameServer.objects.all().filter(online_game_id='6')
-    others_servers = GameServer.objects.all().filter(online_game_id='7')
-    minecraft_servers = GameServer.objects.all().filter(online_game_id='9')
+    lineage2_servers = GameServer.objects.all().filter(online_game='lineage-2')
+    rust_servers = GameServer.objects.all().filter(online_game='Rust')
+    wow_servers = GameServer.objects.all().filter(online_game='Minecraft')
+    csgo_servers = GameServer.objects.all().filter(online_game='Word_of_Warcraft')
+    arma3_servers = GameServer.objects.all().filter(online_game='csgo')
+    dayz_servers = GameServer.objects.all().filter(online_game='arma3')
+    others_servers = GameServer.objects.all().filter(online_game='DayZ')
+    minecraft_servers = GameServer.objects.all().filter(online_game='Others')
 
     context = {
         'l2servers_count': len(lineage2_servers),
@@ -37,16 +40,32 @@ class ServersListView(ListView):
     def get_queryset(self):
         qs = self.model.objects.all()
         if self.kwargs.get('game_slug'):
-            qs = self.model.objects.filter(online_game__game_slug=self.kwargs['game_slug']).filter(ads=None)
+            qs = self.model.objects.filter(online_game=self.kwargs['game_slug']).filter(ads=None)
+            print(self.kwargs['game_slug'])
         return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
-        context['ads'] = Ads.objects.all().filter(server__online_game__game_slug=self.kwargs['game_slug'])
+        context['ads'] = Ads.objects.all().filter(server__online_game=self.kwargs['game_slug'])
         return context
 
-def details(request):
-    return render(request, 'new_server.html')
+@login_required
+def add_server(request):
+
+    if request.method == 'POST':
+        game_server_form = GameServerForm(request.POST, request.FILES)
+
+        if game_server_form.is_valid():
+            game_server_form.save()
+            messages.success(request, 'Ваш сервер успешно отправлен на модерацию')
+            return redirect('new_Server')
+    else:
+        game_server_form = GameServerForm(request.POST, request.FILES)
+        print(game_server_form.errors)
+        return render(request, 'new_server.html', 
+        {'game_server_form': game_server_form})
+
+
 
 def gold(request):
     return render(request, 'gold_status.html')
