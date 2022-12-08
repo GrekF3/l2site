@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, FileInput, EmailInput, PasswordInput
+from django.forms import ModelForm, TextInput, FileInput, EmailInput, HiddenInput
 from django.contrib.auth.models import User
 from .models import Profile
 from django import forms
@@ -41,4 +41,3 @@ class UserForm(ModelForm):
                 'class': 'form-control',
             }),
         }
-    

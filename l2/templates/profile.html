@@ -4,7 +4,7 @@
 <html lang="en">
 
   <head>
-    {% block title %} {{ user }} {% endblock title %} 
+    {% block title %} {{ profile.user }} {% endblock title %} 
   </head>
 
 <body>
@@ -34,15 +34,26 @@
                       {% endif %}
                       <h4>{{ profile.user }}</h4>
                       <p>{{ profile.bio }}</p>
-                      <div class="main-border-button">
-                        <a href="{% url 'new_Server' %}">Подписаться</a>
-                      </div>
+                      {% if profile.link == request.user.username %}
+                    
+                      {% else %}
+                        {% if request.user not in profile.followers.all %}
+                        <div class="main-border-button">
+                          <a href="{% url 'sub' profile.user %}">Подписаться</a>
+                        </div>
+                        {% else %}
+                        <div class="main-border-button aria-disabled="true"">
+                          <a href="" class="btn btn-secondary btn-lg disabled" role="button" aria-disabled="true">Вы подписаны</a>
+                        </div>
+                        {% endif %}
+                      {% endif %}
                     </div>
+                    </form>
                   </div>
                   <div class="col-lg-4 align-self-center">
                     <ul>
                       <li>Посты <span>{{ posts_count }}</span></li>
-                      <li>Подписчики <span>0</span></li>
+                      <li>Подписчики <span>{{ profile.all_folowers }}</span></li>
                     </ul>
                   </div>
                 </div>

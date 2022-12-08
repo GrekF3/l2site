@@ -7,12 +7,15 @@ from django.conf import settings
 from PIL import Image
 import os
 
+
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
     bio = models.TextField(max_length=125,blank=True, verbose_name='Статус')
     avatar = models.ImageField(upload_to='profile_avatars', verbose_name='Аватар', blank=True, null=True , default='profile_avatars/def_ava.jpeg')
     is_gold = models.BooleanField(verbose_name='GOLD подписчик', default=False, null=True)
     link = models.SlugField(verbose_name='Ссылка на пользователя', unique=True, null=True, blank=True, default=None)
+
+    followers = models.ManyToManyField(User, related_name='Подписчики', blank=True, symmetrical=False)
 
     def save_link(self, *args, **kwargs):
         self.link = slugify(self.user)
@@ -27,12 +30,16 @@ class Profile(models.Model):
             img.thumbnail(new_img)
             img.save(self.avatar.path)
 
+    def all_folowers(self):
+        return self.followers.count()
+
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = "Пользователи"
     
     def __str__(self):
         return f'{self.user} профиль'
+    
 
 
 class UserIP(models.Model):
@@ -40,4 +47,3 @@ class UserIP(models.Model):
 
     def __str__(self):
         return self.ip
-    

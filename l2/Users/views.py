@@ -28,13 +28,15 @@ def profile(request, username):
     posts_count = user_context.count()
 
     # Тест
-    print(get_current_user, user_context)
+
     
 
     # ------------------ Редактирование профиля ----------------------
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        
+
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
@@ -46,4 +48,17 @@ def profile(request, username):
         profile_form = ProfileForm(instance=request.user.profile)
     # ------------------ Редактирование профиля ----------------------
 
-    return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form, 'posts':user_context, 'posts_count': posts_count, 'profile':get_current_user})
+    return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form, 'posts':user_context, 'posts_count': posts_count, 'profile':get_current_user,})
+
+
+def subscribe(request, username):
+    get_current_user = get_object_or_404(Profile,link__iexact=username)
+    user_req = request.user
+    print (get_current_user.user, user_req)
+
+    if user_req != get_current_user.followers:
+        get_current_user.followers.add(user_req)
+    else:
+        pass
+
+    return redirect('profile', get_current_user.user )
