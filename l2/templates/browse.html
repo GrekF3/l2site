@@ -44,7 +44,7 @@
 <div class="container">
 	<div class="row">
 
-    	<div class="col-lg-8">
+    	<div class="col-lg-8 mb-2">
         	<div class="page-content mt-0 p-0">
 			{% for server in server_list %}
 				{% if server.moderate == True %}
@@ -77,12 +77,12 @@
 								</a>
 							</h2>
 							{% endif %}
-							<a href="https://www.top100arena.com/banner/2420" class="nk-post-img mb-6">
-							<img src="https://www.top100arena.com/storage/banners/8mZMlkfaNOnJT5gL5JKPXU1pJuYqN0tpK3HVtDG6.gif" alt="★ BEST SERVER - INTERLUDE X50 - 2ND DECEMBER!">
+							<a href="{{ server.server_site }}" class="nk-post-img mb-6">
+							<img src="{{ server.server_banner.url }}" alt="{{ server.name }}">
 							</a>
 							<div class="nk-post-text">
-								<p>➤ The best server for solo players! Cash race at the start with a prize pool of $1,500! Go to our discord - https://discord.gg/5d2w7UVpbp
-								<a href="https://www.top100arena.com/banner/2420"><strong>Visit</strong></a>
+								<p>{{ server.description|truncatewords:30 }}
+								<a href="{{ server.server_site }}"><strong>Играть</strong></a>
 								</p>
 							</div>
 							<div class="clearfix mt-2 d-flex">

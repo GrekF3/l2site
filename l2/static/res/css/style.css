@@ -71,6 +71,7 @@ body {
     transition: transform .15s ease-in-out;
     transform: scale(1);
     will-change: transform;
+    max-width: 650px;
 }
 
 .nk-decorated-h-2::before, .nk-decorated-h::before {
