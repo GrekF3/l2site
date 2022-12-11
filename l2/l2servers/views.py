@@ -44,10 +44,8 @@ class ServersListView(ListView):
 
     def get_queryset(self):
         qs = self.model.objects.all()
-        print(qs)
         if self.kwargs.get('game_slug'):
             qs = self.model.objects.filter(online_game__iexact=self.kwargs['game_slug']).filter(ads=None)
-            print(qs)
         return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -55,7 +53,6 @@ class ServersListView(ListView):
         context['ads'] = Ads.objects.all().filter(server__online_game__iexact=self.kwargs['game_slug'])
         return context
 
-@login_required
 def add_server(request):
 
     if request.method == 'POST':

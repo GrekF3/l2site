@@ -149,7 +149,6 @@
                             </form>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -158,11 +157,27 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
   </div>
+      {% if messages %}
+    <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-end align-items-center w-100">
+        <!-- Then put toasts within -->
+      {% for message in messages %}
+        <div class="toast bg mr-5 bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <strong class="me-auto">EzServers</strong>
+            <small>Сейчас</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+        {{ message }}
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    {% endif %}
   {% endblock content %}
   </body>
 

@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserForm, ProfileForm
@@ -13,7 +14,11 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
     success_message = "Вы успешно изменили пароль"
     success_url = reverse_lazy('home')
+    
 
+
+def register(request):
+    return render(request,'register.html')
 
 @login_required
 # Вместо Username можем ставить link,slug,id, в общем любое обозначение ссылки на пользователя

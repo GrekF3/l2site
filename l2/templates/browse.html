@@ -53,26 +53,26 @@
 					<div class="row vertical-gap">
 						<div class="col-12 pt-20">
 							{% if forloop.counter < 4 %}
-							<h3 class="nk-decorated-h-2 mb-6">
-								<a href="#" class="img-ads">
-									<img src="{% static 'res/images/1553771148.svg' %}" alt="TOP SERVER" class="img-ads">
+							<h2 class="nk-decorated-h-2 mb-6">
+								<a href="{{ server.server_site }}" class="img-ads">
+									<img src="{% static 'res/images/1553771148.svg' %}" alt="{{ server.server_name }}" class="img-ads">
 								</a>
-							</h3>
+							</h2>
 							<h2 class="nk-post-title h4 mb-6">
-								<a href="#">
+								<a href="{{ server.server_site }}">
 									★ {{ server.name }}
 								</a>
 							</h2>
 							{% else %}
-							<h3 class="nk-decorated-h-2 mb-6">
-								<a href="#" class="img-ads">
+							<h2 class="nk-decorated-h-2 mb-6">
+								<a href="{{ server.server_site }}" class="img-ads">
 									<span class="text-main-1">
 										{{ forloop.counter }}
 									</span>
 								</a>
-							</h3>
+							</h2>
 							<h2 class="nk-post-title h4 mb-6">
-								<a href="#">
+								<a href="{{ server.server_site }}">
 									{{ server.name }}
 								</a>
 							</h2>
