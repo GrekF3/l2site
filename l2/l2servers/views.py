@@ -64,7 +64,6 @@ def add_server(request):
             return redirect('new_Server')
     else:
         game_server_form = GameServerForm(request.POST, request.FILES)
-        print(game_server_form.errors)
         return render(request, 'new_server.html', 
         {'game_server_form': game_server_form})
 

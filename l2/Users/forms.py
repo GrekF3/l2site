@@ -1,7 +1,6 @@
 from django.forms import ModelForm, TextInput, FileInput, EmailInput, PasswordInput
 from django.contrib.auth.models import User
 from .models import Profile
-from django import forms
 from django.core.files.images import get_image_dimensions
 from django.contrib.auth.forms import PasswordChangeForm
 

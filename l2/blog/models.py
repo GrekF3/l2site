@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from tinymce import models as tinymce_model
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 from Users.models import UserIP
 
 from PIL import Image
@@ -45,4 +46,19 @@ class BlogPost(models.Model):
     class Meta:
         verbose_name = 'Пост'
         verbose_name_plural = "Посты"
-    
+
+
+class Comments(models.Model):
+
+    post = models.ForeignKey(BlogPost,on_delete=models.CASCADE, verbose_name='Пост')
+    commenter = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор комментария')
+    comment_text = models.TextField(max_length=455, default=None,verbose_name='Текст комментария')
+    date_published = models.DateField(verbose_name='Дата публикации', default=now)
+
+    moderate = models.BooleanField(default=False, verbose_name='Проверен')
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = "Комментарии"
+
+
