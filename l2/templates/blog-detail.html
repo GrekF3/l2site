@@ -74,27 +74,21 @@
 						<form method="POST">
 							{% csrf_token %}
 
+							{% if not user.is_authenticated %}
 							<div class="mb-3 row">
-								<label for="inputName" class="col-4 col-form-label">Ваше имя:</label>
-								{% if not user.is_authenticated %}
-								<div class="col-8">
-									<input type="text" class="form-control" name="inputName" id="inputName" placeholder="Name">
-								</div>
-								{% else %}
-									{% if comment_form.use_fieldset %}
-									<fieldset disabled>
-										<div class="d-flex col-8 align-items-center">
-											{{ comment_form.commenter }}
-										</div>
-									</fieldset disabled>
-									{% endif %}
-								{% endif %}
+								a<a name="" id="" class="btn btn-primary" href="{% url 'register' %}" role="button">Зарегестрироваться для отправки комментариев</a>
 							</div>
-
+							{% else %}
+							<div class="mb-3 row">
+								<label for="inputName" class="col-4 col-form-label">Вы авторизованы как:</label>
+								<div class="d-flex align-items-center col-8">
+									{{ request.user }}
+								</div>
+							</div>
 							<div class="mb-3 row">
 							<legend class="col-form-legend col-4">Комментарий:</legend>
 								<div class="col-8">
-									<textarea class="form-control" name="" id="" rows="3"></textarea>
+									{{ comments_form.comment_text }}
 								</div>
 							</div>
 
@@ -103,6 +97,7 @@
 									<button type="submit" class="btn btn-success">Отправить</button>
 								</div>
 							</div>
+							{% endif %}
 						</form>
 					</div>
 				  </section>

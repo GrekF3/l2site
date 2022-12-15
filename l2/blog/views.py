@@ -1,6 +1,6 @@
-from django.http import Http404
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
-from django.shortcuts import render, redirect
+from django.views.generic.edit import FormMixin
 from .models import BlogPost, Comments
 from .forms import CommentsForm
 from Users.models import UserIP
@@ -16,25 +16,26 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR') # В REMOTE_ADDR значение айпи пользователя
     return ip
 
-class BlogPostDetailView(DetailView):
+class BlogPostDetailView(FormMixin, DetailView):
 
     model = BlogPost
     template_name = 'blog-detail.html'
     context_object_name = 'post'
     form_class = CommentsForm
 
+    def get_success_url(self):
+        return reverse_lazy('post', kwargs={'slug': self.object.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         view_post = self.model.objects.get(slug=self.kwargs['slug'])
-
-
-        context['comment_form'] = self.form_class
-
-
-
         comments = Comments.objects.all().filter(post=view_post)
+
         context['comments_list'] = comments
+        context['comments_form'] = self.get_form()
+
+
+        # IP CHECKER
         ip = get_client_ip(self.request)
         if UserIP.objects.filter(ip=ip).exists():
             view_post.views.add(UserIP.objects.get(ip=ip))
@@ -44,17 +45,20 @@ class BlogPostDetailView(DetailView):
             view_post.views.add(UserIP.objects.get(ip=ip))
             context['views'] = self.model.views
         return context
-
-    def NewComment(self,request):
-        if request.method == 'POST':
-            comment_form = self.form_class(request.POST)
-            if comment_form.is_valid():
-                comment_form.save()
-                messages.success(request,'Комментарий успешно добавлен!')
-                return redirect('post')
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
         else:
-            comment_form = self.form_class(request.POST)
-            return {'comment_form':comment_form}
+            return self.form_invalid(form)
+    
+    def form_valid(self, form):
+        form.instance.post = self.model.objects.get(slug=self.kwargs['slug'])
+        form.instance.commenter = self.request.user
+        form.save()
+        return super().form_valid(form)
 
 
 class BlogPostListView(ListView):
