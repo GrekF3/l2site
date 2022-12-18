@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
-
+from django.contrib.auth.models import User
 
 
 class GameServer(models.Model):
@@ -28,6 +28,8 @@ class GameServer(models.Model):
 
     moderate = models.BooleanField(default=False, verbose_name='Проверен')
 
+    server_owner = models.ForeignKey(User, on_delete=models.CASCADE, default=User.objects.get(username='skyhelper').id)
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
@@ -39,17 +41,3 @@ class GameServer(models.Model):
         verbose_name = 'Сервер'
         verbose_name_plural = 'Сервера'
 
-
-class Ads(models.Model):
-    """реклама модель"""
-    server = models.ForeignKey(GameServer, on_delete=models.CASCADE)
-    default = models.BooleanField(default=True)
-    vip = models.BooleanField(default=None)
-    top_vip = models.BooleanField(default=None)
-
-    def __str__(self):
-        return str(f'{self.server} {self.server.name}')
-
-    class Meta:
-        verbose_name = 'Рекламный пост'
-        verbose_name_plural = 'Рекламные посты'

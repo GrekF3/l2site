@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from django.conf import settings
 from PIL import Image
+from l2servers.models import GameServer
 import os
 
 
@@ -15,7 +16,9 @@ class Profile(models.Model):
     is_gold = models.BooleanField(verbose_name='GOLD подписчик', default=False, null=True)
     link = models.SlugField(verbose_name='Ссылка на пользователя', unique=True, null=True, blank=True, default=None)
 
-    followers = models.ManyToManyField(User, related_name='Подписчики', blank=True, symmetrical=False)
+    followers = models.ManyToManyField(User, verbose_name='Подписчики', related_name='Подписчики', blank=True, symmetrical=False)
+
+    servers = models.ManyToManyField(GameServer, verbose_name='Сервера пользователя', blank=True, symmetrical=False)
 
     def save_link(self, *args, **kwargs):
         self.link = slugify(self.user)
@@ -32,10 +35,21 @@ class Profile(models.Model):
 
     def all_folowers(self):
         return self.followers.count()
+    
+    def get_user_status(self):
+
+        if self.is_gold:
+            return str('GOLD подписчик')
+        elif self.user.is_staff:
+            return str('Администратор')
+        else:
+            return str('Обычный')
+        
+        
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = "Пользователи"
+        verbose_name = 'Участник'
+        verbose_name_plural = "Участники"
     
     def __str__(self):
         return f'{self.user} профиль'

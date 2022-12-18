@@ -1,11 +1,10 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserForm, ProfileForm
-
+from .forms import UserForm, ProfileForm, RegisterForm, LoginForm
 from django.urls import reverse_lazy
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, LoginView
+from django.contrib.auth import login, logout
 from django.contrib.messages.views import SuccessMessageMixin
 from blog.models import BlogPost
 from .models import Profile
@@ -16,11 +15,34 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     success_url = reverse_lazy('home')
     
 
+class Login(LoginView):
+    
+    template_name = 'login.html'
+    form_class = LoginForm
+    
+    def form_valid(self, form):
+        """Security check complete. Log the user in."""
+        login(self.request, form.get_user())
+        return redirect('profile', form.get_user())
 
-def register(request):
-    return render(request,'register.html')
+def logout_request(request):
+    logout(request)
+    return redirect('home')
 
-@login_required
+def register_request(request):
+
+    if request.method == "POST":
+        user_form = RegisterForm(request.POST)
+        if user_form.is_valid():
+            link = user_form.cleaned_data['username']
+            user = user_form.save()
+            user.profile.link = link
+            login(request, user)
+            return redirect('home')
+
+    user_form = RegisterForm()
+    return render(request, 'register.html',{'register_form':user_form})
+
 # Вместо Username можем ставить link,slug,id, в общем любое обозначение ссылки на пользователя
 def profile(request, username):
 
@@ -32,9 +54,13 @@ def profile(request, username):
     user_context = BlogPost.objects.all().filter(author=get_current_user.id)
     posts_count = user_context.count()
 
-    # Тест
-
-    
+    if not request.user.is_authenticated:
+        context = {
+            'profile':get_current_user,
+            'posts_count': posts_count,
+            'posts': user_context,
+        }
+        return render(request, 'profile.html', context)
 
     # ------------------ Редактирование профиля ----------------------
     if request.method == 'POST':
@@ -52,9 +78,7 @@ def profile(request, username):
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
     # ------------------ Редактирование профиля ----------------------
-
     return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form, 'posts':user_context, 'posts_count': posts_count, 'profile':get_current_user,})
-
 
 def subscribe(request, username):
     get_current_user = get_object_or_404(Profile,link__iexact=username)

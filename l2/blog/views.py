@@ -29,7 +29,7 @@ class BlogPostDetailView(FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         view_post = self.model.objects.get(slug=self.kwargs['slug'])
-        comments = Comments.objects.all().filter(post=view_post)
+        comments = Comments.objects.all().filter(post=view_post).filter(moderate=True)
 
         context['comments_list'] = comments
         context['comments_form'] = self.get_form()

@@ -3,8 +3,10 @@ from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from .forms import GameServerForm
 from django.contrib import messages
+from django.contrib.auth.models import User
+from PIL import Image
 
-from .models import GameServer, Ads
+from .models import GameServer
 
 
 def index(request):
@@ -45,13 +47,8 @@ class ServersListView(ListView):
     def get_queryset(self):
         qs = self.model.objects.all()
         if self.kwargs.get('game_slug'):
-            qs = self.model.objects.filter(online_game__iexact=self.kwargs['game_slug']).filter(ads=None)
+            qs = self.model.objects.filter(online_game__iexact=self.kwargs['game_slug'])
         return qs
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data()
-        context['ads'] = Ads.objects.all().filter(server__online_game__iexact=self.kwargs['game_slug'])
-        return context
 
 def add_server(request):
 
@@ -59,6 +56,17 @@ def add_server(request):
         game_server_form = GameServerForm(request.POST, request.FILES)
 
         if game_server_form.is_valid():
+            server = game_server_form.save(commit=False)
+            server.server_owner = request.user
+            banner = Image.open(server.server_banner)
+            if banner.format != 'GIF' or 'gif':
+                messages.error(request, message='Неверный формат изображения')
+                return redirect('new_Server')
+            
+            if GameServer.objects.filter(name=server.name).exists():
+                messages.error(request, message='Такой сервер уже существует')
+                return redirect('new_Server')
+                
             game_server_form.save()
             messages.success(request, 'Ваш сервер успешно отправлен на модерацию')
             return redirect('new_Server')
