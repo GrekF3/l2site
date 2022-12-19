@@ -33,6 +33,13 @@ class Profile(models.Model):
             img.thumbnail(new_img)
             img.save(self.avatar.path)
 
+    def delete_avatar(self):
+        try:
+            self.avatar.delete()
+        except ValueError:
+            pass
+        return self.avatar
+
     def all_folowers(self):
         return self.followers.count()
     

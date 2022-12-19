@@ -114,7 +114,7 @@
 		</div>
 	</div>
 </footer>
-
+{% block messages %}
 {% if messages %}
 <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-end align-items-center w-100">
     <!-- Then put toasts within -->
@@ -132,6 +132,14 @@
 	{% endfor %}
   </div>
  {% endif %}
+ <script>
+	window.onload = (event) => {
+	let myAlert = document.querySelector('.toast');
+	let bsAlert = new bootstrap.Toast(myAlert);
+	bsAlert.show();
+	}
+</script>
+ {% endblock messages %}
 <!-- Scripts -->
 <!-- Bootstrap core JavaScript -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -191,7 +199,7 @@
         $('.count5').counter();
       }, 3000);
     });
-  </script>
+</script>
 
 </body>
 

@@ -8,6 +8,7 @@ from django.contrib.auth import login, logout
 from django.contrib.messages.views import SuccessMessageMixin
 from blog.models import BlogPost
 from .models import Profile
+from PIL import Image
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
@@ -38,7 +39,11 @@ def register_request(request):
             user = user_form.save()
             user.profile.link = link
             login(request, user)
+            messages.success('Успешная регистрация')
             return redirect('home')
+        else:
+            messages.error('Что-то пошло не так!')
+            return redirect('register')
 
     user_form = RegisterForm()
     return render(request, 'register.html',{'register_form':user_form})
@@ -70,8 +75,23 @@ def profile(request, username):
 
 
         if user_form.is_valid() and profile_form.is_valid():
+            user_form.save(commit=False)
+            profile = profile_form.save(commit=False)
+            image = Image.open(profile.avatar)
+            if image.format == 'PNG':
+                messages.error(request,'Неверный формат изображения')
+                profile_form.full_clean()
+                user_form.full_clean()
+                return redirect('profile', request.user.username)
+            elif image:
+                get_current_user.delete_avatar()
+                profile_form.save()
+                user_form.save()
+                messages.success(request, 'Ваш профиль успешно обновлен')
+                return redirect('profile', request.user.username)
+
+            profile.save()
             user_form.save()
-            profile_form.save()
             messages.success(request, 'Ваш профиль успешно обновлен')
             return redirect('profile', request.user.username)
     else:
@@ -83,7 +103,6 @@ def profile(request, username):
 def subscribe(request, username):
     get_current_user = get_object_or_404(Profile,link__iexact=username)
     user_req = request.user
-    print (get_current_user.user, user_req)
 
     if user_req != get_current_user.followers:
         get_current_user.followers.add(user_req)
