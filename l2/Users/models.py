@@ -24,15 +24,6 @@ class Profile(models.Model):
         self.link = slugify(self.user)
         super(Profile, self).save(*args, **kwargs)
 
-    def save(self, *args, **kwargs):
-        super().save()
-        img = Image.open(self.avatar.path)
-
-        if img.height > 250 or img.width > 250:
-            new_img = (250, 250)
-            img.thumbnail(new_img)
-            img.save(self.avatar.path)
-
     def delete_avatar(self):
         try:
             self.avatar.delete()

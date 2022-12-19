@@ -87,6 +87,10 @@ def profile(request, username):
                 get_current_user.delete_avatar()
                 profile_form.save()
                 user_form.save()
+                if image.height > 300 or image.width > 300:
+                    new_img = (300, 300)
+                    image.thumbnail(new_img)
+                    image.save(profile.avatar.path)
                 messages.success(request, 'Ваш профиль успешно обновлен')
                 return redirect('profile', request.user.username)
 
