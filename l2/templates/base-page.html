@@ -116,10 +116,10 @@
 </footer>
 {% block messages %}
 {% if messages %}
-<div aria-live="polite" aria-atomic="true" class="d-flex justify-content-end align-items-center w-100">
+<div aria-live="polite" aria-atomic="true" class="d-flex justify-content-end align-items-center w-100 position-sticky bottom-0 end-0 mb-3">
     <!-- Then put toasts within -->
 	{% for message in messages %}
-    <div class="toast bg mr-5 bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast bg mr-5 bg-{{ message.tags }}" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-header">
         <strong class="me-auto">EzServers</strong>
         <small>Сейчас</small>

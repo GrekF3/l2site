@@ -27,8 +27,9 @@
                   </div>
                   <div class="col-lg-4 align-self-center gold">
                     <div class="main-info header-text">
-                      {% if profile.get_user_status == 'Администратор' %}
-                      <span class="badge bg-primary"><b>{{ profile.get_user_status }}</b></span>
+                      {% if profile.user.is_staff %}
+                      <span class="badge bg-primary"><b>Администратор</b></span>
+                      
                       {% elif profile.get_user_status == 'GOLD подписчик' %}
                       <span class="badge bg-warning"><b>{{ profile.get_user_status }}</b></span>
                       {% else %}

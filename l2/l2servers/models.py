@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -24,11 +25,14 @@ class GameServer(models.Model):
     server_site = models.URLField(max_length=1000, default='l2.ru', verbose_name='Ссылка на сервер')
 
     description = models.CharField(max_length=500, default='Без описания', verbose_name='Описание сервера')
-    server_slug = models.SlugField(unique=True, db_index=True, null=True, blank=True, default=None)
+    server_slug = models.SlugField(unique=True, db_index=True, null=True, blank=True, default=None, verbose_name='URL')
 
     moderate = models.BooleanField(default=False, verbose_name='Проверен')
 
-    server_owner = models.ForeignKey(User, on_delete=models.CASCADE, default=User.objects.get(username='skyhelper').id)
+    server_owner = models.ForeignKey(User, on_delete=models.CASCADE, default=User.objects.get(username='skyhelper').id,related_name='owner')
+
+    liked_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes', blank=True, symmetrical=False)
+
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -36,6 +40,10 @@ class GameServer(models.Model):
 
     def __str__(self):
         return f'{self.online_game} {self.name}'
+    
+    def likes(self):
+        return self.liked_by.count()
+
 
     class Meta:
         verbose_name = 'Сервер'

@@ -122,7 +122,11 @@
 
 									<div>
 										<h6 class="fw-bold mb-1">{{ comment.commenter.username }}
-											{% if comment.commenter.profile.is_gold == True %}
+											{% if comment.commenter.profile.user.is_staff %}
+											<span class="badge bg-primary ml-2">
+												Администратор
+											</span>
+											{% elif comment.commenter.profile.is_gold %}
 											<span class="badge bg-warning ml-2">
 												GOLD подписчик
 											</span>

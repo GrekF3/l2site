@@ -48,56 +48,109 @@
         	<div class="page-content mt-0 p-0">
 			{% for server in server_list %}
 				{% if server.moderate == True %}
-			<div class="d-flex container-xxl pt-2 page-bp">
-				<div class="nk-blog-post">
-					<div class="row vertical-gap">
-						<div class="col-12 pt-20">
-							{% if forloop.counter < 4 %}
-							<h2 class="nk-decorated-h-2 mb-6">
-								<a href="{{ server.server_site }}" class="img-ads">
-									<img src="{% static 'res/images/1553771148.svg' %}" alt="{{ server.server_name }}" class="img-ads">
-								</a>
-							</h2>
-							<h2 class="nk-post-title h4 mb-6">
-								<a href="{{ server.server_site }}">
-									★ {{ server.name }}
-								</a>
-							</h2>
-							{% else %}
-							<h2 class="nk-decorated-h-2 mb-6">
-								<a href="{{ server.server_site }}" class="img-ads">
-									<span class="text-main-1">
-										{{ forloop.counter }}
-									</span>
-								</a>
-							</h2>
-							<h2 class="nk-post-title h4 mb-6">
-								<a href="{{ server.server_site }}">
-									{{ server.name }}
-								</a>
-							</h2>
-							{% endif %}
-							<a href="{{ server.server_site }}" class="nk-post-img mb-6">
-							<img src="{{ server.server_banner.url }}" alt="{{ server.name }}">
-							</a>
-							<div class="nk-post-text">
-								<p>{{ server.description|truncatewords:30 }}
-								<a href="{{ server.server_site }}"><strong>Играть</strong></a>
-								</p>
-							</div>
-							<div class="clearfix mt-2 d-flex">
-								<div class="d-inline-flex p-2">
-									<a href="{% url 'gold' %}" class="link-warning btn btn-outline-warnin gold-back white_p">GOLD</a>
-									<a href="{% url 'gold' %}" class="link-success btn btn-outline-warnin green_border white_p ml-2">0<svg width="24px" height="24px" viewBox="0 1 24 24" fill="green" xmlns="http://www.w3.org/2000/svg" class="ml-1 p-0">
-										<path d="M7 14.5L12 9.5L17 14.5" stroke="#363853" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-										</svg>
-									</a>
+					{% if server.server_owner.profile.is_gold %}
+						<div class="d-flex container-xxl pt-2 page-bp">
+							<div class="nk-blog-post">
+								<div class="row vertical-gap">
+									<div class="col-12 pt-20">
+										{% if forloop.counter < 4 %}
+										<h2 class="nk-decorated-h-2 mb-6">
+											<a href="{{ server.server_site }}" class="img-ads">
+												<img src="{% static 'res/images/1553771148.svg' %}" alt="{{ server.server_name }}" class="img-ads">
+											</a>
+										</h2>
+										<h2 class="nk-post-title h4 mb-6">
+											<a class='text-warning' href="{{ server.server_site }}">
+												🔥🔥🔥 {{ server.name }} 🔥🔥🔥
+											</a>
+										</h2>
+										{% else %}
+										<h2 class="nk-decorated-h-2 mb-6">
+											<a href="{{ server.server_site }}" class="img-ads">
+												<span class="text-main-1">
+													{{ forloop.counter }}
+												</span>
+											</a>
+										</h2>
+										<h2 class="nk-post-title h4 mb-6">
+											<a href="{{ server.server_site }}">
+												{{ server.name }}
+											</a>
+										</h2>
+										{% endif %}
+										<a href="{{ server.server_site }}" class="nk-post-img mb-6">
+										<img src="{{ server.server_banner.url }}" alt="{{ server.name }}">
+										</a>
+										<div class="nk-post-text">
+											<p>{{ server.description|truncatewords:30 }}
+											<a href="{{ server.server_site }}"><strong>Играть</strong></a>
+											</p>
+										</div>
+										<div class="clearfix mt-2 d-flex">
+											<div class="d-inline-flex">
+												<a href="{% url 'gold' %}" class="link-warning btn btn-outline-warnin gold-back white_p">GOLD</a>
+												<a href="{% url 'vote' server.name %}" class="link-success btn btn-outline-warnin green_border white_p ml-2">{{ server.likes }}<svg width="24px" height="24px" viewBox="0 1 24 24" fill="green" xmlns="http://www.w3.org/2000/svg" class="ml-1 p-0">
+													<path d="M7 14.5L12 9.5L17 14.5" stroke="#363853" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
+												</a>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
+					{% else %}
+						<div class="d-flex container-xxl pt-2 page-bp">
+							<div class="nk-blog-post">
+								<div class="row vertical-gap">
+									<div class="col-12 pt-20">
+										{% if forloop.counter < 4 %}
+										<h2 class="nk-decorated-h-2 mb-6">
+											<a href="{{ server.server_site }}" class="img-ads">
+												<img src="{% static 'res/images/1553771148.svg' %}" alt="{{ server.server_name }}" class="img-ads">
+											</a>
+										</h2>
+										<h2 class="nk-post-title h4 mb-6">
+											<a href="{{ server.server_site }}">
+												★ {{ server.name }}
+											</a>
+										</h2>
+										{% else %}
+										<h2 class="nk-decorated-h-2 mb-6">
+											<a href="{{ server.server_site }}" class="img-ads">
+												<span class="text-main-1">
+													{{ forloop.counter }}
+												</span>
+											</a>
+										</h2>
+										<h2 class="nk-post-title h4 mb-6">
+											<a href="{{ server.server_site }}">
+												{{ server.name }}
+											</a>
+										</h2>
+										{% endif %}
+										<a href="{{ server.server_site }}" class="nk-post-img mb-6">
+										<img src="{{ server.server_banner.url }}" alt="{{ server.name }}">
+										</a>
+										<div class="nk-post-text">
+											<p>{{ server.description|truncatewords:30 }}
+											<a href="{{ server.server_site }}"><strong>Играть</strong></a>
+											</p>
+										</div>
+										<div class="clearfix mt-2 d-flex">
+											<div class="d-inline-flex">
+												<a href="{% url 'vote' server.name %}" class="link-success btn btn-outline-warnin green_border white_p mb-1">{{ server.likes }}<svg width="24px" height="24px" viewBox="0 1 24 24" fill="green" xmlns="http://www.w3.org/2000/svg" class="ml-1 p-0">
+													<path d="M7 14.5L12 9.5L17 14.5" stroke="#363853" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+
 				{% endif %}
 			{% endfor %}
 			</div>

@@ -28,7 +28,7 @@ class BlogPost(models.Model):
         img = Image.open(self.blog_image.path)
 
         if img.height > 250 or img.width > 250:
-            new_img = (250, 250)
+            new_img = (400, 400)
             img.thumbnail(new_img)
             img.save(self.blog_image.path)
 

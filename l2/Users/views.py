@@ -77,22 +77,28 @@ def profile(request, username):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save(commit=False)
             profile = profile_form.save(commit=False)
+
             image = Image.open(profile.avatar)
-            if image.format == 'PNG':
-                messages.error(request,'Неверный формат изображения')
-                profile_form.full_clean()
-                user_form.full_clean()
-                return redirect('profile', request.user.username)
-            elif image:
+
+            # редактор аватарки
+            if 'avatar' in profile_form.changed_data:
+                    # НЕ ПУСТОЙ ФОН
+                if image.format == 'PNG':
+                    messages.error(request,'Неверный формат изображения')
+                    profile_form.full_clean()
+                    user_form.full_clean()
+                    return redirect('profile', request.user.username)
                 get_current_user.delete_avatar()
                 profile_form.save()
                 user_form.save()
+
+                    # РАЗМЕРЫ ИЗОБРАЖЕНИЯ
                 if image.height > 300 or image.width > 300:
                     new_img = (300, 300)
                     image.thumbnail(new_img)
                     image.save(profile.avatar.path)
-                messages.success(request, 'Ваш профиль успешно обновлен')
-                return redirect('profile', request.user.username)
+                    messages.success(request, 'Ваш профиль успешно обновлен')
+                    return redirect('profile', request.user.username)
 
             profile.save()
             user_form.save()

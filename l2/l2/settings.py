@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'blog',
 ]
 
+LOGIN_URL = 'auth'
+
 TINYMCE_DEFAULT_CONFIG = {
     "height": "320px",
     "width": "960px",

@@ -20,10 +20,14 @@ class Profile(models.Model):
 
     servers = models.ManyToManyField(GameServer, verbose_name='Сервера пользователя', blank=True, symmetrical=False)
 
+    
+
+    # Ссылка на пользователя
     def save_link(self, *args, **kwargs):
         self.link = slugify(self.user)
         super(Profile, self).save(*args, **kwargs)
 
+    # Почистить аватарку из бд
     def delete_avatar(self):
         try:
             self.avatar.delete()
@@ -31,11 +35,12 @@ class Profile(models.Model):
             pass
         return self.avatar
 
+    # Подписчики
     def all_folowers(self):
         return self.followers.count()
     
+    # Статус юзера
     def get_user_status(self):
-
         if self.is_gold:
             return str('GOLD подписчик')
         elif self.user.is_staff:
