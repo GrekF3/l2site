@@ -13,7 +13,7 @@ class BlogPostAdmin(admin.ModelAdmin):
 
 @admin.register(Comments)
 class CommentsAdmins(admin.ModelAdmin):
-    list_display = ['post', 'commenter', 'moderate']
+    list_display = ['post', 'commenter', 'comment_text','moderate']
 
 
 

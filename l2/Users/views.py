@@ -56,7 +56,7 @@ def profile(request, username):
 
 
     # Получем его посты
-    user_context = BlogPost.objects.all().filter(author=get_current_user.id)
+    user_context = BlogPost.objects.all().filter(author=get_current_user.id).order_by('-date_published')[:4]
     posts_count = user_context.count()
 
     if not request.user.is_authenticated:

@@ -2,18 +2,8 @@
 {% extends 'base-page.html' %}
 {% load static %}
 <html lang="en">
-<head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="{% static 'res/bootstrap-5.0.2-dist/css/bootstrap.css' %}">
-	<link rel="stylesheet" href="{% static 'res/css/style.css' %}">
-
 	<title>EzServers | {% block title %} {{ post.blog_title }} {% endblock %}</title>
 </head>
-
 
 <body>
 {% block content %}
@@ -40,7 +30,7 @@
 	<div class="row">
     	<div class="col-lg-8 mb-2">
         	<div class="page-content mt-0 p-3">
-				<section class="border-bottom mb-4 mt-0">
+				<section class="border-bottom white mb-4 mt-0">
 					<img src="https://mdbootstrap.com/img/Photos/Slides/img%20(144).jpg"
 					  class="img-fluid shadow-2-strong rounded-5 mb-4" alt="" />
 		
@@ -65,8 +55,11 @@
 					  </div>
 					</div>
 				</section>
-				<section class="mb-5 mt-0 blog-text">
-					{{ post.blog_text|safe }}
+
+				<section id="textarea"class="mb-5 mt-0">
+					<h2 id="textarea" class="mb-5">
+						{{ post.blog_text|safe }}
+					</h2>
 				</section>
 
 				<section class="border-top">

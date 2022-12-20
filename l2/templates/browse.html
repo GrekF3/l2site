@@ -88,11 +88,19 @@
 										</div>
 										<div class="clearfix mt-2 d-flex">
 											<div class="d-inline-flex">
-												<a href="{% url 'gold' %}" class="link-warning btn btn-outline-warnin gold-back white_p">GOLD</a>
-												<a href="{% url 'vote' server.name %}" class="link-success btn btn-outline-warnin green_border white_p ml-2">{{ server.likes }}<svg width="24px" height="24px" viewBox="0 1 24 24" fill="green" xmlns="http://www.w3.org/2000/svg" class="ml-1 p-0">
+												<a href="{% url 'gold' %}" class="link-warning btn gold-back white_p">GOLD</a>
+												{% if request.user not in server.liked_by.all %}
+												<a href="{% url 'vote' server.name %}" class="link-success btn green_border white_p ml-2 active">{{ server.likes }}<svg width="24px" height="24px" viewBox="0 1 24 24" fill="green" xmlns="http://www.w3.org/2000/svg" class="ml-1 p-0">
 													<path d="M7 14.5L12 9.5L17 14.5" stroke="#363853" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 													</svg>
 												</a>
+												{% else %}
+												<a href="{% url 'vote' server.name %}" class="link-success btn green_border white_p ml-2 active">{{ server.likes }}<svg width="24px" height="24px" viewBox="0 1 24 24" fill="green" xmlns="http://www.w3.org/2000/svg" class="ml-1 p-0">
+													<path d="M7 14.5L12 9.5L17 14.5" stroke="#363853" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
+												</a>
+												<p class="ml-3 text-success">Вы проголосвали за этот сервер </p>
+												{% endif %}
 											</div>
 										</div>
 									</div>
@@ -139,10 +147,18 @@
 										</div>
 										<div class="clearfix mt-2 d-flex">
 											<div class="d-inline-flex">
-												<a href="{% url 'vote' server.name %}" class="link-success btn btn-outline-warnin green_border white_p mb-1">{{ server.likes }}<svg width="24px" height="24px" viewBox="0 1 24 24" fill="green" xmlns="http://www.w3.org/2000/svg" class="ml-1 p-0">
+												{% if request.user not in server.liked_by.all %}
+												<a href="{% url 'vote' server.name %}" class="link-success btn green_border white_p active">{{ server.likes }}<svg width="24px" height="24px" viewBox="0 1 24 24" fill="green" xmlns="http://www.w3.org/2000/svg" class="ml-1 p-0">
 													<path d="M7 14.5L12 9.5L17 14.5" stroke="#363853" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 													</svg>
 												</a>
+												{% else %}
+												<a href="{% url 'vote' server.name %}" class="link-success btn green_border white_p active">{{ server.likes }}<svg width="24px" height="24px" viewBox="0 1 24 24" fill="green" xmlns="http://www.w3.org/2000/svg" class="ml-1 p-0">
+													<path d="M7 14.5L12 9.5L17 14.5" stroke="#363853" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
+												</a>
+												<p class="ml-3 text-success">Вы проголосвали за этот сервер </p>
+												{% endif %}
 											</div>
 										</div>
 									</div>

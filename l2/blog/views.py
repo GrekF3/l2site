@@ -50,6 +50,7 @@ class BlogPostDetailView(FormMixin, DetailView):
         self.object = self.get_object()
         form = self.get_form()
         if form.is_valid():
+            messages.warning(request,'Ваш комментарий отправлен на модерацию')
             return self.form_valid(form)
         else:
             return self.form_invalid(form)

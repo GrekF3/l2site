@@ -68,7 +68,7 @@ body {
 
 .nk-post-img img {
     width: 100%;
-    height: auto;
+    height: 200px;
     transition: transform .15s ease-in-out;
     transform: scale(1);
     will-change: transform;
@@ -173,8 +173,8 @@ body .page-content .categories {
 }
 
 .avatar {
-    max-width: 10%;
-    max-height: 10%;
+    max-width: 35px;
+    max-height: 35px;
 }
 
 .profile-avatar {
