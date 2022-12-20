@@ -90,8 +90,8 @@
         	<div class="page-content mt-0">
             <div class="row row-cols-1 row-cols-md-2 g-4 p-0">
               {% for post in posts_list %}
-              <div class="col mt-0">
-                <div class="card blog-color nk-post-img">
+              <div class="col-md-6 mt-0 mb-3 p-2">
+                <div class="card border border-white p-3 cat-color nk-post-img">
                   <a href="{{ post.get_absolute_url }}"><img src="{{ post.blog_image.url }}" class="card-img-top blog-img" alt="..."></a>
                   <div class="card-body p-0 mt-3">
 
@@ -104,7 +104,7 @@
                     </p>                    
                   </div>
                   <p class="mt-2 d-flex align-items-center p-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3 mr-2" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
                       <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
                       <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
                     </svg>
@@ -115,7 +115,12 @@
                       <a class ="btn btn-outline-info cat-color" href="{{ post.get_absolute_url }}">Читать полностью</a>
                     </div>
                     <div class="col-sm-4">
-                      <span class="text-white float-right"><i class="fa fa-eye">{{ post.total_views }}</i></span>
+                      <span class="text-white float-right">
+                        
+                        <i class="fa fa-eye">
+                          {{ post.total_views }}
+                        </i>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -128,7 +133,7 @@
         <div class="col-lg-4">
           <div class="page-content mt-0 p-0 position-sticky sticky-top">
             <div class="align-items-center text-center pt-4"> 
-              <h4 class="nk-widget-title text-center"><span>Категории</span></h4>
+              <h4 class="nk-widget-title text-center"><span>Сервера</span></h4>
             </div>
             <div class="list-group mt-3 p-3 pt-0">
               <ul class="list-group-flush">
