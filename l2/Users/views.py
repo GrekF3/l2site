@@ -33,6 +33,9 @@ def logout_request(request):
 
 def register_request(request):
 
+    if request.user.is_authenticated:
+        return redirect('profile', request.user.profile.link)
+
     if request.method == "POST":
         user_form = RegisterForm(request.POST)
         if user_form.is_valid():
