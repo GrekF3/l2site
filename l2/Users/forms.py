@@ -11,7 +11,7 @@ class ProfileForm(ModelForm):
     class Meta:
         
         model = Profile
-        fields = ['bio','is_gold', 'link', 'avatar']
+        fields = ['bio','is_gold', 'avatar']
         
         widgets = {
             'bio': TextInput(attrs={
@@ -25,7 +25,7 @@ class ProfileForm(ModelForm):
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ["first_name",'last_name', 'email', 'username']
+        fields = ["first_name",'last_name', 'email']
         required_fields = ['email', 'username']
         widgets = {
             'first_name': TextInput(attrs={

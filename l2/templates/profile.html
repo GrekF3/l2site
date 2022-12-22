@@ -15,6 +15,21 @@
         <div class="page-content">
           <!-- ***** Banner Start ***** -->
           <div class="row">
+
+            {% if messages %}
+              {% for message in messages %}
+                {% if message.tags == 'error' %}
+                  <div class="alert alert-danger mb-5" role="alert">
+                    {{ message }}
+                  </div>
+                {% else %}
+                  <div class="alert alert-success mb-5" role="alert">
+                    {{ message }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
             <div class="col-lg-12">
               <div class="main-profile ">
                 <div class="row">
@@ -48,7 +63,7 @@
                         </div>
                         {% else %}
                         <div class="main-border-button aria-disabled="true"">
-                          <a href="" class="btn btn-secondary btn-lg disabled" role="button" aria-disabled="true">Вы подписаны</a>
+                          <a href="{% url 'sub' profile.user %}" class="btn btn-success btn-lg" role="button" aria-disabled="true">Вы подписаны</a>
                         </div>
                         {% endif %}
                       {% endif %}
@@ -108,19 +123,6 @@
                         <div class="col-lg-12">
                           <div class="heading-section">
                             <h4>Редактировать профиль</h4>
-                            {% if messages %}
-                              {% for message in messages %}
-                                {% if message.tags == 'error' %}
-                                  <div class="alert alert-danger mb-5" role="alert">
-                                    {{ message }}
-                                  </div>
-                                {% else %}
-                                  <div class="alert alert-success mb-5" role="alert">
-                                    {{ message }}
-                                  </div>
-                                {% endif %}
-                              {% endfor %}
-                            {% endif %}
                           </div>
                         </div>
 
@@ -139,8 +141,7 @@
                               <div class="col-md-4 position-relative">
                                 <label for="validationTooltipUsername" class="form-label">Никнейм</label>
                                 <div class="input-group has-validation">
-                                  <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
-                                  {{ user_form.username }}
+                                  <span class="input-group-text" id="validationTooltipUsernamePrepend">@ {{ request.user.profile.link }}</span>
                                 </div>
                               </div>
                               <div class="col-md-4 position-relative">

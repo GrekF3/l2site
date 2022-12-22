@@ -8,6 +8,7 @@ from django.contrib.auth import login, logout
 from django.contrib.messages.views import SuccessMessageMixin
 from blog.models import BlogPost
 from .models import Profile
+from django.contrib.auth.models import User
 from PIL import Image
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
@@ -72,14 +73,11 @@ def profile(request, username):
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         
-
-
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save(commit=False)
             profile = profile_form.save(commit=False)
 
             image = Image.open(profile.avatar)
-
             # редактор аватарки
             if 'avatar' in profile_form.changed_data:
                     # НЕ ПУСТОЙ ФОН
@@ -87,7 +85,7 @@ def profile(request, username):
                     messages.error(request,'Неверный формат изображения')
                     profile_form.full_clean()
                     user_form.full_clean()
-                    return redirect('profile', request.user.username)
+                    return redirect('profile', request.user.profile.link)
                 get_current_user.delete_avatar()
                 profile_form.save()
                 user_form.save()
@@ -98,25 +96,26 @@ def profile(request, username):
                     image.thumbnail(new_img)
                     image.save(profile.avatar.path)
                     messages.success(request, 'Ваш профиль успешно обновлен')
-                    return redirect('profile', request.user.username)
+                    return redirect('profile', request.user.profile.link)
 
             profile.save()
             user_form.save()
             messages.success(request, 'Ваш профиль успешно обновлен')
-            return redirect('profile', request.user.username)
+            return redirect('profile', request.user.profile.link)
     else:
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
     # ------------------ Редактирование профиля ----------------------
     return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form, 'posts':user_context, 'posts_count': posts_count, 'profile':get_current_user,})
 
+@login_required
 def subscribe(request, username):
     get_current_user = get_object_or_404(Profile,link__iexact=username)
     user_req = request.user
 
-    if user_req != get_current_user.followers:
+    if user_req not in get_current_user.followers.all():
         get_current_user.followers.add(user_req)
     else:
-        pass
+        get_current_user.followers.remove(user_req)
 
     return redirect('profile', get_current_user.user )
