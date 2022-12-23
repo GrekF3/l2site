@@ -1,15 +1,20 @@
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserForm, ProfileForm, RegisterForm, LoginForm
+from .forms import UserForm, ProfileForm, RegisterForm, LoginForm, PasswordResetWidget
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView, LoginView
 from django.contrib.auth import login, logout
+from django.contrib.auth.tokens import default_token_generator
 from django.contrib.messages.views import SuccessMessageMixin
 from blog.models import BlogPost
 from .models import Profile
+from django.db.models.query_utils import Q
 from django.contrib.auth.models import User
 from PIL import Image
+from django.template.loader import render_to_string
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
@@ -32,7 +37,46 @@ def logout_request(request):
     return redirect('home')
 
 def password_reset(request):
-    pass
+
+    if request.method == "POST":
+        password_reset = PasswordResetWidget(request.POST)
+        if password_reset.is_valid():
+
+            data_email = password_reset.cleaned_data['email']
+
+            associated_users = User.objects.filter(Q(email=data_email))
+            if associated_users.exists():
+                for user in associated_users:
+                    subject = 'Сброс пароля на EzServers'
+                    email_template_name = 'password_reset.txt'
+                    c = {
+                        'site_name':'EzServers',
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token': default_token_generator.make_token(user),
+					    'protocol': 'http',
+                    }
+                    email = render_to_string(email_template_name, c)
+
+                    from django.core.mail import send_mail, BadHeaderError
+                    try:
+                        send_mail(subject, email, 'ezservers@company.org', [user.email], fail_silently=False)
+                    except:
+                        messages.error(request,'Такого пользователя не найдено.')
+                        return redirect('reset_password')
+                    
+                    messages.success(request,'Ссылка на восстановление пароля успешно отправлена!')
+                    return redirect('home')
+            else:
+                messages.error(request,'Такого пользователя не найдено!')
+                return redirect('reset_password')
+    password_reset_form = PasswordResetWidget()
+    return render(request, 'password_reset_form.html', context={'p_form':password_reset_form})
+
+
+
+
+
+
 
 def register_request(request):
 

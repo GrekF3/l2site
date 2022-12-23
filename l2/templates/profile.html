@@ -123,6 +123,10 @@
                         <div class="col-lg-12">
                           <div class="heading-section">
                             <h4>Редактировать профиль</h4>
+                            {% if request.user.email %}
+                            {% else %}
+                            <p>Пожалуйста, добавьте почту, чтобы не потерять доступ к аккаунту</p>
+                            {% endif %}
                           </div>
                         </div>
 
@@ -166,8 +170,9 @@
                                 {{ profile_form.avatar }}
                               </div>                        
                               
+
                               <div class="col-12">
-                                <button class="btn btn-success" type="submit">Отправить</button>
+                                <button class="btn btn-success" type="submit">Сохранить</button>
                               </div>
                               <div class="col-12">
                                 <a name="Change-password" id="Change-password" class="btn btn-danger" href="{% url 'password_change' %}" role="button">Изменить пароль</a>

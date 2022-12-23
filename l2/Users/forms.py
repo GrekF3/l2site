@@ -1,10 +1,9 @@
-from django.forms import ModelForm, TextInput, FileInput, EmailInput, PasswordInput, CharField
+from django.forms import EmailField, ModelForm, TextInput, FileInput, EmailInput, PasswordInput, CharField
 from django.contrib.auth.models import User
 from .models import Profile
 from django.contrib.auth import password_validation
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField, PasswordResetForm
 from django.utils.translation import gettext_lazy as _
-
 
 class ProfileForm(ModelForm):
 
@@ -75,4 +74,12 @@ class LoginForm(AuthenticationForm):
         label=_("Password"),
         strip=False,
         widget=PasswordInput(attrs={"autocomplete": "current-password", 'class':'form-control'}),
+    )
+
+class PasswordResetWidget(PasswordResetForm):
+    
+    email = EmailField(
+        label=_("Email"),
+        max_length=254,
+        widget=EmailInput(attrs={"autocomplete": "email", 'class':'form-control'}),
     )
