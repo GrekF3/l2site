@@ -31,6 +31,9 @@ def logout_request(request):
     logout(request)
     return redirect('home')
 
+def password_reset(request):
+    pass
+
 def register_request(request):
 
     if request.user.is_authenticated:
