@@ -66,6 +66,11 @@ body {
     transform: translateY(-10px);
 }
 
+.blog-img {
+    min-height: 180px;
+    max-height: 180px;
+}
+
 .nk-post-img img {
     width: 100%;
     transition: transform .15s ease-in-out;
@@ -189,33 +194,18 @@ body .page-content .categories {
 }
 
 .blog-text p {
-    color: white;
+    color: rgb(216, 214, 214);
+    font-size: 17px;
 }
 
-
-.star-1 {
-    border-color: #ff2828;
-    color: #ff2828;
+.top-image {
+    min-width: 400px;
+    min-height: 400px;
 }
 
-.star-2 {
-    border-color: #d94a22;
-    color: #d94a22;
-}
-
-.star-3 {
-    border-color: #a7771a;
-    color: #a7771a;
-}
-
-.star-4 {
-    border-color: #69b00f;
-    color: #69b00f;
-}
-
-.star-5 {
-    border-color: #3ed808;
-    color: #3ed808;
+.notifications-ico {
+    max-width: 16px;
+    max-height: 16px;
 }
 
 *, ::after, ::before {

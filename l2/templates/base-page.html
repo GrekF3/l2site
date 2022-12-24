@@ -116,28 +116,27 @@
 </footer>
 {% block messages %}
 {% if messages %}
-<div aria-live="polite" aria-atomic="true" class="d-flex justify-content-end align-items-center w-100 position-sticky bottom-0 end-0 mb-3">
-    <!-- Then put toasts within -->
-	{% for message in messages %}
-    <div class="toast bg mr-5 bg-{{ message.tags }}" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header">
-        <strong class="me-auto">EzServers</strong>
-        <small>Сейчас</small>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body">
+{% for message in messages %}
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+	<div class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+	  <div class="toast-header">
+		<img src="{% static 'res/images/favico/favicon.ico' %}" class="rounded me-2 notifications-ico" alt="...">
+		<strong class="me-auto">EzServers</strong>
+		<small>Сейчас</small>
+		<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+	  </div>
+	  <div class="toast-body">
 		{{ message }}
-      </div>
-    </div>
-	{% endfor %}
+	  </div>
+	</div>
   </div>
- {% endif %}
+{% endfor %}
+{% endif %}
  <script>
-	window.onload = (event) => {
-	let myAlert = document.querySelector('.toast');
-	let bsAlert = new bootstrap.Toast(myAlert);
-	bsAlert.show();
-	}
+	var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+	var toastList = toastElList.map(function (toastEl) {
+	return new bootstrap.Toast(toastEl, option)
+	})
 </script>
  {% endblock messages %}
 <!-- Scripts -->

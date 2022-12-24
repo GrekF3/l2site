@@ -31,8 +31,8 @@
     	<div class="col-lg-8 mb-2">
         	<div class="page-content mt-0 p-3">
 				<section class="border-bottom white mb-4 mt-0">
-					<img src="https://mdbootstrap.com/img/Photos/Slides/img%20(144).jpg"
-					  class="img-fluid shadow-2-strong rounded-5 mb-4" alt="" />
+					<img src="{{ post.blog_image.url }}"
+					  class="img-fluid shadow-2-strong rounded-5 top-image mb-4" alt="" />
 		
 					<div class="row align-items-center mb-4">
 					  <div class="col-lg-6 text-center text-lg-start mb-3 m-lg-0">
@@ -56,11 +56,13 @@
 					</div>
 				</section>
 
-				<section class="mb-5 mt-0">
+				<section id="main-content" class="mt-0">
+					<div class="mb-0 container blog-text p-1">
 						{{ post.blog_text|safe }}
+					</div>
 				</section>
 
-				<section class="border-top">
+				<section class="border-top mt-5">
 					<div class="container white_p mt-2">
 						<form method="POST">
 							{% csrf_token %}
@@ -73,13 +75,13 @@
 							</div>
 							{% else %}
 							<div class="mb-3 row">
-								<label for="inputName" class="col-4 col-form-label">Вы авторизованы как:</label>
+								<label for="inputName" class="col-4 col-form-label">Ваше имя:</label>
 								<div class="d-flex align-items-center col-8">
 									{{ request.user }}
 								</div>
 							</div>
 							<div class="mb-3 row">
-							<legend class="col-form-legend col-4">Комментарий:</legend>
+							<legend class="col-form-label col-4">Комментарий:</legend>
 								<div class="col-8">
 									{{ comments_form.comment_text }}
 								</div>
