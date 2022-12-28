@@ -73,11 +73,6 @@ def password_reset(request):
     return render(request, 'password_reset_form.html', context={'p_form':password_reset_form})
 
 
-
-
-
-
-
 def register_request(request):
 
     if request.user.is_authenticated:
