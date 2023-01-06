@@ -82,14 +82,15 @@ def register_request(request):
         user_form = RegisterForm(request.POST)
         if user_form.is_valid():
             link = user_form.cleaned_data['username']
+
+            if Profile.objects.all().filter(username=link):
+                messages.error(request,'Такой профиль уже существует!')
+                
             user = user_form.save()
             user.profile.link = link
             login(request, user)
-            messages.success('Успешная регистрация')
+            messages.success(request,'Успешная регистрация')
             return redirect('home')
-        else:
-            messages.error('Что-то пошло не так!')
-            return redirect('register')
 
     user_form = RegisterForm()
     return render(request, 'register.html',{'register_form':user_form})
