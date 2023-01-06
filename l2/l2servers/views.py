@@ -51,38 +51,40 @@ class ServersListView(ListView):
         return qs
 
 def add_server(request):
-    if request.method == 'POST':
-        game_server_form = GameServerForm(request.POST, request.FILES)
 
-        if game_server_form.is_valid():
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            game_server_form = GameServerForm(request.POST, request.FILES)
+            if game_server_form.is_valid():
+                server = game_server_form.save(commit=False)
+                server.server_owner = request.user
+                # Проверка изображений
+                banner = Image.open(server.server_banner)
+                if banner.height > 90 or banner.width > 728:
+                    messages.error(request, message='Неверный размер изображения')
+                    return redirect('new_Server')
+                # Проверка изображений
+                if GameServer.objects.all().filter(name=server.name).exists():
+                    messages.error(request, message='Такой сервер уже существует')
+                    return redirect('new_Server')
+                    
+                if server.server_owner.profile.is_gold:
+                    server.moderate = True
+                    server.save()
+                    messages.success(request, message='Вы успешно добавили сервер!')
+                    return redirect('profile', request.user.profile.link )   
 
-            server = game_server_form.save(commit=False)
-            server.server_owner = request.user
-            
-            # Проверка изображений
-            banner = Image.open(server.server_banner)
-            if banner.format != 'GIF':
-                messages.error(request, message='Неверный формат изображения')
-                return redirect('new_Server')
-            elif banner.height > 90 or banner.width > 728:
-                messages.error(request,message='Неверный размер изображения')
-                return redirect('new_Server')
-            
-            if GameServer.objects.filter(name=server.name).exists():
-                messages.error(request, message='Такой сервер уже существует')
-                return redirect('new_Server')
-            
-            if server.server_owner.is_gold:
-                server.moderate = True
                 server.save()
-                
-            game_server_form.save()
-            messages.success(request, 'Ваш сервер успешно отправлен на модерацию')
-            return redirect('new_Server')
-    else:
-        game_server_form = GameServerForm(request.POST, request.FILES)
-        return render(request, 'new_server.html', 
-        {'game_server_form': game_server_form})
+                messages.success(request, 'Ваш сервер успешно отправлен на модерацию')
+                return redirect('new_Server')
+            else:
+                messages.error(request, message=game_server_form.errors)
+        else:
+            return redirect('auth')
+
+    game_server_form = GameServerForm()
+    return render(request, 'new_server.html', {'game_server_form': game_server_form})
+
 
 @login_required
 def vote(request,name):

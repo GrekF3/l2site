@@ -1,41 +1,70 @@
-from django.http import HttpResponse, HttpResponseRedirect
-from requests import Response
-from yookassa import Payment, Configuration, Refund
-import uuid, json
-from django.contrib.auth.decorators import login_required
+import json
+import uuid
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
+import requests
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
-from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+class Payments(object):
 
-Configuration.account_id = '969696'
-Configuration.secret_key = 'test_o1nsEQBtHMeeb8zXKlrfH8OEsHtWgP0oI20ZcRwzeWI'
-
-class YandexPayments(APIView):
-
-    def get(self,request):
-        payment = Payment.create({
-                "amount": {
-                    "value": "499.00",
-                    "currency": "RUB"
-                },
-                "confirmation": {
-                    "type": "redirect",
-                    "return_url": "http://127.0.0.1:443/order_completed/"
-                },
-                "capture": True,
-                "description": "Оплата GOLD подписки на EzServers."
-            }, uuid.uuid4())
-
-        confrim_url = payment.confirmation.confirmation_url
-        payment_id = payment.id
-            
-        return HttpResponseRedirect(confrim_url)
+    api_url = 'https://securepay.tinkoff.ru/v2'
+    terminal_id = '1672740060359DEMO'
+    password = 'ai2ui5rtwr721iwv'
+    timeout = 1000
     
+    def ini(self):
+        self.TerminalKey = Payments.terminal_id
+        self.password = Payments.password
+
+    def Payment_Init(self):
+        order_id = uuid.uuid4()
+        id = str(order_id)
+
+        data_json = {
+            'TerminalKey':Payments.terminal_id,
+            'OrderId':id,
+            'Amount':49900,
+            'Language':'ru',
+            "Description": "Оплата покупки GOLD-подписки на сайте EzServers.",
+        }
+
+        init = 'Init'
+        headers = {
+            'Content-Type':'application/json'
+        }
+        response = requests.post(Payments.api_url + '/' + init, data=json.dumps(data_json), headers=headers)
+        result = response.json()
+        return result
+
+def payment(request):
+    payment = Payments()
+    if request.user.is_authenticated:
+        pay = payment.Payment_Init()
+        URL = pay['PaymentURL']
+        payment_id = pay['PaymentId']
+        Order_id = pay['OrderId']
+        return HttpResponseRedirect(URL)
+    else:
+        return redirect('auth')
 
 @csrf_exempt
-def notifications(request):
-    print(request.method)
-    return HttpResponse(200)
-    
+def checkpayment(request):
+    if request.method == 'GET':
+        response = request.GET
+        data = json.dumps(response, ensure_ascii=False, indent=4)
+        clear_data = json.loads(data)
+        if clear_data['Success'] == 'true':
+            user = request.user
+            user.profile.Upgrade()
+            messages.success(request,'Подписка успешно оплачена')
+            return redirect('profile', user.profile.link)
+        else:
+            user = request.user
+            error = clear_data['Message']
+            message = f'Ошибка. {error}'
+            messages.error(request, message=message)
+            return redirect('profile', user.profile.link)
+
+
+

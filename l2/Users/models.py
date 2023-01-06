@@ -20,7 +20,9 @@ class Profile(models.Model):
 
     servers = models.ManyToManyField(GameServer, verbose_name='Сервера пользователя', blank=True, symmetrical=False)
 
-    
+    def Upgrade(self, *args, **kwargs):
+        self.is_gold = True
+        self.save()
 
     # Ссылка на пользователя
     def save_link(self, *args, **kwargs):

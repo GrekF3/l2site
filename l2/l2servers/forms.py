@@ -14,10 +14,11 @@ GAMES = [
     ]
 
 class GameServerForm(ModelForm):
-    online_game = forms.ChoiceField(choices=GAMES, required=True, widget=forms.Select(attrs={
+
+    online_game = forms.ChoiceField(choices=GAMES, widget=forms.Select(attrs={
         'class':'form-select'
     }))
-
+    
     class Meta:
         model = GameServer
         fields = ['name', 'online_game', 'server_banner', 'description', 'server_site']

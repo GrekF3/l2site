@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import profile, ChangePasswordView, subscribe, Login, register_request, logout_request, password_reset
 from django.contrib.auth import views as auth_views
-from .payments import YandexPayments, notifications
+from .payments import payment, checkpayment
 
 
 urlpatterns = [
@@ -14,7 +14,7 @@ urlpatterns = [
     path('password-reset/', password_reset, name='reset_password'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="password_reset_confirm.html"), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'), 
-    path('gold/order', YandexPayments.as_view(), name='Order'),
-    path('order_completed/', notifications)
+    path('gold/order', payment, name='Order'),
+    path('checkpayment/', checkpayment)
 ]
 

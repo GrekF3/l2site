@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-*#ow#4#4w&x4ae7jer1b0!4anv+*^3do&x@e+7^x#(f34j3-xc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['ezservers.ru', '127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_fsm',
     'blog',
     'rest_framework',
+    "django_extensions",
 ]
 
 TINYMCE_JS_URL = 'https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js'
@@ -105,8 +106,8 @@ DATABASES = {
         'NAME': 'servers',
         'USER': 'skyhelper',
         'PASSWORD': 'admin',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
+        'HOST': 'localhost',
+        'PORT': ''
     }
 }
 
